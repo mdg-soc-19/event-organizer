@@ -4,38 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Forgot_Password">
+    tools:context=".Calender_View">
 
-    <EditText
-        android:id="@+id/forgot_pass_email"
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:ems="10"
-        android:hint="Email ID"
-        android:inputType="textEmailAddress"
+        android:layout_marginTop="100dp"
+        android:text="Select Your Date"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/Reset_password"
+        android:id="@+id/Save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
-        android:hint="Reset Password"
-        android:text="Reset Password"
+        android:layout_marginTop="24dp"
+        android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_pass_email" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

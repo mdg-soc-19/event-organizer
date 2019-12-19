@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Item" />
+    <item
+        android:id="@+id/Home"
+        android:title="Home" />
+    <item
+        android:id="@+id/AccountDetails"
+        android:title="Account Details" />
+    <item
+        android:id="@+id/MyEvents"
+        android:title="My Events" />
+    <item
+        android:id="@+id/Logout"
+        android:title="Logout" />
+    <item
+        android:id="@+id/Calender_icon"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Select Date"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_search_category_default"
+        app:showAsAction="always"
+        android:title="Search bar"></item>
+
+
 </menu>
