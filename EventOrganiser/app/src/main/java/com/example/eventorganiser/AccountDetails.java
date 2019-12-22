@@ -4,64 +4,59 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AccountDetails extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
+
     private DatabaseReference mDatabase;
+    FirebaseAuth fAuth;
+    private TextView username,groupName,email;
+    private Button edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_details);
-        mRecyclerView = (RecyclerView) findViewById(R.id.AccountDetailsRecyclerView);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("GroupLeaderDetails");
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabase.keepSynced(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        username = (TextView)findViewById(R.id.accountDetails_Username);
+        groupName = (TextView)findViewById(R.id.accountDetails_GroupName);
+        email = (TextView)findViewById(R.id.accountDetails_Email);
+        edit = (Button)findViewById(R.id.AccountDetails_Edit);
     }
 
     protected void onStart(){
         super.onStart();
-        FirebaseRecyclerAdapter<GroupLeaderDetail,GRDViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<GroupLeaderDetail, GRDViewHolder>
-                (GroupLeaderDetail.class,R.layout.group_leader_details,GRDViewHolder.class,mDatabase) {
-            @Override
-            protected void populateViewHolder(GRDViewHolder grdViewHolder, GroupLeaderDetail groupLeaderDetail, int i) {
-                grdViewHolder.setUsername(groupLeaderDetail.getUsername());
-                grdViewHolder.setGroupName(groupLeaderDetail.getGroupName());
-                grdViewHolder.setEmailId(groupLeaderDetail.getEmailId());
-            }
-        };
-    }
-    public static class GRDViewHolder extends RecyclerView.ViewHolder{
-        View view;
 
-        public GRDViewHolder(@NonNull View itemView, View view) {
-            super(itemView);
-            this.view = view;
-        }
-        public void setUsername(String username){
-            TextView Username = (TextView)view.findViewById(R.id.accountDetails_Username);
-            Username.setText(username);
-        }
-        public void setGroupName(String groupName){
-            TextView Username = (TextView)view.findViewById(R.id.accountDetails_GroupName);
-            Username.setText(groupName);
-        }
-        public void setEmailId(String emailId){
-            TextView Username = (TextView)view.findViewById(R.id.accountDetails_Email);
-            Username.setText(emailId);
-        }
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot userSnapshot : dataSnapshot.getChildren()){
+                    GroupLeaderDetail groupLeaderDetail = userSnapshot.getValue(GroupLeaderDetail.class);
+                    username.setText(groupLeaderDetail.getUsername());
+                    groupName.setText(groupLeaderDetail.getGroupName());
+                    email.setText(groupLeaderDetail.getEmailId());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
