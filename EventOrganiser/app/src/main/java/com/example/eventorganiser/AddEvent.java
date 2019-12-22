@@ -1,0 +1,142 @@
+package com.example.eventorganiser;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
+
+public class AddEvent extends AppCompatActivity {
+
+    private EditText nameOfGroup,nameOfEvent,date,venueOfEvent,specifications,prerequisite,time;
+    private Button submitBtn;
+    private Button back_btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_event);
+
+        nameOfGroup = (EditText)findViewById(R.id.NameOfGroup);
+        nameOfEvent = (EditText) findViewById(R.id.NameOfEvent);
+        date = (EditText) findViewById(R.id.Date);
+        venueOfEvent = (EditText)findViewById(R.id.VenueOfEvent);
+        specifications = (EditText)findViewById(R.id.Specifications);
+        prerequisite = (EditText)findViewById(R.id.Prerequisite);
+        submitBtn = (Button)findViewById(R.id.Submit_btn);
+        back_btn = (Button)findViewById(R.id.Back_btn);
+        time = (EditText)findViewById(R.id.Time);
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Event event = new Event();
+                event.setDate(date.getText().toString());
+                event.setName_of_event(nameOfEvent.getText().toString());
+                event.setName_of_grp(nameOfGroup.getText().toString());
+                event.setPrerequisite(prerequisite.getText().toString());
+                event.setSpecifications(specifications.getText().toString());
+                event.setVenue(venueOfEvent.getText().toString());
+                event.setTime(time.getText().toString());
+
+
+                String DateAndTime = date.getText().toString().trim();
+                String NameOfEvent = nameOfEvent.getText().toString().trim();
+                String nameOfGrp = nameOfGroup.getText().toString().trim();
+                String Prerequisite = prerequisite.getText().toString().trim();
+                String Specifications = specifications.getText().toString().trim();
+                String Venue = venueOfEvent.getText().toString().trim();
+                String Time = time.getText().toString().trim();
+
+                if(TextUtils.isEmpty(DateAndTime)){
+                    date.setError("This field is required");
+                }
+                if(TextUtils.isEmpty(nameOfGrp)){
+                    nameOfGroup.setError("This field is required");
+                }
+                if(TextUtils.isEmpty(Prerequisite)){
+                    prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
+                }
+                if(TextUtils.isEmpty(NameOfEvent)){
+                    nameOfEvent.setError("This field is required");
+                }
+                if(TextUtils.isEmpty(Specifications)){
+                    specifications.setError("This field is required.If there are no specifications then enter none.");
+                }
+                if(TextUtils.isEmpty(Venue)){
+                    venueOfEvent.setError("This field is required");
+                }
+                if (TextUtils.isEmpty(Time)){
+                    time.setError("This field is required");
+                }
+
+                new FirebaseDatabaseHelper().addEvent(event, new FirebaseDatabaseHelper.DataStatus() {
+                    @Override
+                    public void DataIsLoaded(List<Event> events, List<String> keys) {
+
+                    }
+
+                    @Override
+                    public void DataIsInserted() {
+                        Toast.makeText(AddEvent.this,"The event record has been inserted successfully.",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void DataIsDeleted() {
+
+                    }
+                });
+            }
+        });
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(AddEvent.this,MyEvents.class));
+            }
+        });
+    }
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_at_home,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.Home){
+            finish();
+            startActivity(new Intent(getApplicationContext(),Home.class));
+        }
+        else if(id == R.id.AccountDetails){
+            finish();
+            startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+        }
+
+        else if(id == R.id.MyEvents){
+            finish();
+            startActivity(new Intent(getApplicationContext(),MyEvents.class));
+        }
+        else if(id == R.id.Logout){
+            finish();
+            FirebaseAuth.getInstance().signOut();
+        }
+        else if(id == R.id.Calender_icon){
+            finish();
+            startActivity(new Intent(getApplicationContext(),Calender_View.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

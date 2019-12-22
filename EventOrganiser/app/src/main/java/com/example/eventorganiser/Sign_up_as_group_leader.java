@@ -1,8 +1,5 @@
 package com.example.eventorganiser;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,14 +8,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 public class Sign_up_as_group_leader extends AppCompatActivity {
 
-    TextView GroupName,Email,Password,CPassword;
+    TextView GroupName,Email,Password,CPassword,Username;
     Button SignUp;
     FirebaseAuth fAuth;
 
@@ -32,6 +34,7 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
         Password = findViewById(R.id.Password2);
         CPassword = findViewById(R.id.Cpassword2);
         SignUp = findViewById(R.id.Signup2);
+        Username = findViewById(R.id.Username2);
 
         fAuth = FirebaseAuth.getInstance();
        /* if(fAuth.getCurrentUser() != null){
@@ -46,9 +49,14 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                 String password = Password.getText().toString().trim();
                 String groupname = GroupName.getText().toString().trim();
                 String cpassword = CPassword.getText().toString().trim();
+                String username = Username.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
                     Email.setError("Email is Required");
+                    return;
+                }
+                if(TextUtils.isEmpty(username)){
+                    Email.setError("Username is Required");
                     return;
                 }
 
@@ -70,13 +78,36 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                     CPassword.setError("Password and Confirm Password should be equal");
                 }
 
+                GroupLeaderDetail groupLeaderDetail = new GroupLeaderDetail();
+                groupLeaderDetail.setUsername(Username.getText().toString());
+                groupLeaderDetail.setGroupName(GroupName.getText().toString());
+                groupLeaderDetail.setEmailId(Email.getText().toString());
+                new FirebaseDatabaseHelper().addGroupLeaderDetails(groupLeaderDetail, new FirebaseDatabaseHelper.DetailsStatus() {
+                    @Override
+                    public void DataIsLoaded(List<GroupLeaderDetail> groupLeaderDetails, List<String> keys) {
+
+                    }
+
+                    @Override
+                    public void DataIsInserted() {
+
+                    }
+
+                    @Override
+                    public void DataIsDeleted() {
+
+                    }
+                });
+
                 //register the user in Firebase.
 
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+
                             Toast.makeText(Sign_up_as_group_leader.this,"User Created",Toast.LENGTH_SHORT).show();
+                            finish();
                             startActivity(new Intent(getApplicationContext(),Login.class));
                         }
                         else{
