@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MyEvents extends AppCompatActivity {
 
@@ -45,8 +46,12 @@ public class MyEvents extends AppCompatActivity {
         }
         else if(id == R.id.AccountDetails){
             finish();
-            startActivity(new Intent(getApplicationContext(),AccountDetails.class));
-        }
+            if(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).equals("group")) {
+                startActivity(new Intent(getApplicationContext(), AccountDetails.class));
+            }
+            else if(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).equals("student")) {
+                startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
+            }        }
 
         else if(id == R.id.MyEvents){
             finish();
@@ -55,6 +60,7 @@ public class MyEvents extends AppCompatActivity {
         else if(id == R.id.Logout){
             finish();
             FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getApplicationContext(),Login.class));
         }
         else if(id == R.id.Calender_icon){
             finish();

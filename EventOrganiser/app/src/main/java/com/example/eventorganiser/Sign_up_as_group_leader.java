@@ -48,21 +48,17 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(email)){
                     Email.setError("Email is Required");
-                    return;
                 }
                 if(TextUtils.isEmpty(username)){
-                    Email.setError("Username is Required");
-                    return;
+                    Username.setError("Username is Required");
                 }
 
                 if(TextUtils.isEmpty(groupname)){
                     GroupName.setError("Group Name is required");
-                    return;
                 }
 
                 if(TextUtils.isEmpty(password)){
                     Password.setError("Password is required");
-                    return;
                 }
 
                 if(password.length()<6){
@@ -79,8 +75,8 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
-                            GroupLeaderDetail groupLeaderDetail = new GroupLeaderDetail(username,groupname,email);
-                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(groupLeaderDetail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            UserDetails userDetails = new UserDetails(username,groupname,email,"group");
+                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){

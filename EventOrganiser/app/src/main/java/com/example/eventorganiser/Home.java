@@ -14,14 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private DatabaseReference mDatabase;
-
+    private DatabaseReference mDatabase , pDatabase;
+    String date , userType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +33,21 @@ public class Home extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         mDatabase.keepSynced(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        pDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        Bundle bundle = getIntent().getExtras();
-        String message = bundle.getString("date");
+        pDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userType = String.valueOf(dataSnapshot.child("userType").getValue());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+       date = getIntent().getStringExtra("date");
     }
 
     @Override
@@ -45,7 +59,9 @@ public class Home extends AppCompatActivity {
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
                 viewHolder.setDescription(model.getSpecifications());
-                viewHolder.setDateAndTime(model.getDate());
+                viewHolder.setPrerequisite(model.getPrerequisite());
+                viewHolder.setDate(model.getDate());
+                viewHolder.setTime(model.getTime());
                 viewHolder.setVenue(model.getVenue());
             }
         };
@@ -70,9 +86,17 @@ public class Home extends AppCompatActivity {
             TextView Description = (TextView)mView.findViewById(R.id.Description);
             Description.setText(description);
         }
-        public void setDateAndTime(String dateAndTime){
-            TextView DateandTime = (TextView)mView.findViewById(R.id.DateandTime);
-            DateandTime.setText(dateAndTime);
+        public void setPrerequisite(String prerequisite){
+            TextView Prerequisite = (TextView)mView.findViewById(R.id.CardPrerequisite);
+            Prerequisite.setText(prerequisite);
+        }
+        public void setDate(String date){
+            TextView Date = (TextView)mView.findViewById(R.id.CardDate);
+            Date.setText(date);
+        }
+        public void setTime(String time){
+            TextView Time = (TextView)mView.findViewById(R.id.CardTime);
+            Time.setText(time);
         }
         public void setVenue(String venue){
             TextView Venue = (TextView)mView.findViewById(R.id.Venue);
@@ -99,17 +123,21 @@ public class Home extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),Home.class));
         }
         else if(id == R.id.AccountDetails){
-            finish();
-            startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+            if(userType.equals("student")){
+                startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
+            }
+            else if(userType.equals("group")){
+                startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+            }
         }
 
         else if(id == R.id.MyEvents){
-            finish();
             startActivity(new Intent(getApplicationContext(),MyEvents.class));
         }
         else if(id == R.id.Logout){
             finish();
             FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getApplicationContext(),Login.class));
         }
         else if(id == R.id.Calender_icon){
             finish();
