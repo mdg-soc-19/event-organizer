@@ -72,7 +72,7 @@ public class UpdateStudentDetails extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
                         finish();
-                        startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+                        startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
                     }
                 });
             }
