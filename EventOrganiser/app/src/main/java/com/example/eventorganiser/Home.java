@@ -25,6 +25,7 @@ public class Home extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private DatabaseReference mDatabase , pDatabase;
     String date , userType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,7 @@ public class Home extends AppCompatActivity {
         mDatabase.keepSynced(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         pDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -54,7 +56,7 @@ public class Home extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
-                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase){
+                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase.orderByChild("date").equalTo(date)){
             protected void populateViewHolder(EventViewHolder viewHolder,Event model,int position){
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());

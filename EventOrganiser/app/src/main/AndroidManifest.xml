@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UpdateStudentDetails"></activity>
+        <activity android:name=".Edit_Event_Details"></activity>
+        <activity android:name=".UpdateStudentDetails" />
         <activity android:name=".AccountDetails_Student" />
         <activity android:name=".UpdateGroupLeaderDetails" />
         <activity android:name=".Calender_View" />

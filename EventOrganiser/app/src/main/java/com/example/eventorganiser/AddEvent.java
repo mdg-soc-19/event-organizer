@@ -14,21 +14,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
 public class AddEvent extends AppCompatActivity {
 
-    private EditText nameOfGroup,nameOfEvent,date,venueOfEvent,specifications,prerequisite,time;
+    private EditText nameOfEvent,date,venueOfEvent,specifications,prerequisite,time;
     private Button submitBtn;
     private Button back_btn;
+    private String nameOfGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
-        nameOfGroup = (EditText)findViewById(R.id.NameOfGroup);
         nameOfEvent = (EditText) findViewById(R.id.NameOfEvent);
         date = (EditText) findViewById(R.id.Date);
         venueOfEvent = (EditText)findViewById(R.id.VenueOfEvent);
@@ -38,13 +42,26 @@ public class AddEvent extends AppCompatActivity {
         back_btn = (Button)findViewById(R.id.Back_btn);
         time = (EditText)findViewById(R.id.Time);
 
+        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nameOfGroup = String.valueOf(dataSnapshot.child("groupName").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Event event = new Event();
                 event.setDate(date.getText().toString());
                 event.setName_of_event(nameOfEvent.getText().toString());
-                event.setName_of_grp(nameOfGroup.getText().toString());
+                event.setName_of_grp(nameOfGroup);
                 event.setPrerequisite(prerequisite.getText().toString());
                 event.setSpecifications(specifications.getText().toString());
                 event.setVenue(venueOfEvent.getText().toString());
@@ -53,7 +70,7 @@ public class AddEvent extends AppCompatActivity {
 
                 String DateAndTime = date.getText().toString().trim();
                 String NameOfEvent = nameOfEvent.getText().toString().trim();
-                String nameOfGrp = nameOfGroup.getText().toString().trim();
+                String nameOfGrp = nameOfGroup;
                 String Prerequisite = prerequisite.getText().toString().trim();
                 String Specifications = specifications.getText().toString().trim();
                 String Venue = venueOfEvent.getText().toString().trim();
@@ -62,9 +79,7 @@ public class AddEvent extends AppCompatActivity {
                 if(TextUtils.isEmpty(DateAndTime)){
                     date.setError("This field is required");
                 }
-                if(TextUtils.isEmpty(nameOfGrp)){
-                    nameOfGroup.setError("This field is required");
-                }
+
                 if(TextUtils.isEmpty(Prerequisite)){
                     prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
                 }

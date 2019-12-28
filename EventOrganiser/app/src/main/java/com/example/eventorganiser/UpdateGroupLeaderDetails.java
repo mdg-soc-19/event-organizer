@@ -19,9 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class UpdateGroupLeaderDetails extends AppCompatActivity {
 
-    String username, groupName, email;
-    TextView userName, GroupName, Email;
-    Button update , back;
+    private String username, groupName, email;
+    private TextView userName, GroupName, Email;
+    private Button update , back;
     private DatabaseReference mDatabase;
 
     @Override

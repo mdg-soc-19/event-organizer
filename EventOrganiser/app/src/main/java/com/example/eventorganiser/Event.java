@@ -38,18 +38,19 @@ public class Event {
         this.name_of_event = name_of_event;
     }
 
-    public String getDate() { return  date; }
-
-    public void setDate(String date) {
-        this.date = "On " +date;
+    public String getDate() {
+        return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
     public String getTime(){
         return time;
     }
 
     public void setTime(String time){
-        this.time = "At "+time;
+        this.time = time;
     }
 
     public String getVenue() {
@@ -65,7 +66,7 @@ public class Event {
     }
 
     public void setSpecifications(String specifications) {
-        this.specifications = "Specifications : "+specifications;
+        this.specifications = specifications;
     }
 
     public String getPrerequisite() {
@@ -73,6 +74,6 @@ public class Event {
     }
 
     public void setPrerequisite(String prerequisite) {
-        this.prerequisite = "Prerequisites : "+prerequisite;
+        this.prerequisite = prerequisite;
     }
 }

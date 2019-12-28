@@ -11,89 +11,114 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="16sp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="6dp">
+        android:layout_marginRight="6dp"
+        android:text="Name"
+        android:textSize="16sp">
 
     </TextView>
+
     <TextView
         android:id="@+id/accountDetails_Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="6dp"
         android:text="Username"
-        android:textSize="24sp"
-        android:textColor="#000000">
+        android:textColor="#000000"
+        android:textSize="24sp">
 
     </TextView>
 
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="?android:attr/listDivider" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Group Name"
-        android:textSize="16sp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="6dp">
+        android:layout_marginRight="6dp"
+        android:text="Group Name"
+        android:textSize="16sp">
 
     </TextView>
+
     <TextView
         android:id="@+id/accountDetails_GroupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="6dp"
         android:text="GroupName"
-        android:textSize="24sp"
-        android:textColor="#000000">
+        android:textColor="#000000"
+        android:textSize="24sp">
 
     </TextView>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="?android:attr/listDivider" />
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email Address"
-        android:textSize="16sp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="6dp">
-
-    </TextView>
-    <TextView
-        android:id="@+id/accountDetails_Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="6dp"
         android:text="Email Address"
-        android:textSize="24sp"
-        android:textColor="#000000">
+        android:textSize="16sp">
 
     </TextView>
 
+    <TextView
+        android:id="@+id/accountDetails_Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="6dp"
+        android:text="Email Address"
+        android:textColor="#000000"
+        android:textSize="24sp">
+
+    </TextView>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="?android:attr/listDivider" />
 
     <Button
         android:id="@+id/AccountDetails_Edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
@@ -101,11 +126,12 @@
         android:text="Edit">
 
     </Button>
+
     <Button
         android:id="@+id/AccountDetails_PassChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
