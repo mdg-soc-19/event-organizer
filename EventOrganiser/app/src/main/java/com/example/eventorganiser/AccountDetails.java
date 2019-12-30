@@ -23,6 +23,7 @@ public class AccountDetails extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private TextView username,groupName,email;
     private Button edit , changePassword;
+    String userType;
 
     String Username,GroupName,Email;
 
@@ -84,7 +85,7 @@ public class AccountDetails extends AppCompatActivity {
                 username.setText(String.valueOf(dataSnapshot.child("username").getValue()));
                 groupName.setText(String.valueOf(dataSnapshot.child("groupName").getValue()));
                 email.setText(String.valueOf(dataSnapshot.child("emailId").getValue()));
-
+                userType = String.valueOf(dataSnapshot.child("userType").getValue());
             }
 
             @Override
@@ -109,10 +110,10 @@ public class AccountDetails extends AppCompatActivity {
         }
         else if(id == R.id.AccountDetails){
             finish();
-            if(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).equals("group")) {
+            if(userType.equals("group")) {
                 startActivity(new Intent(getApplicationContext(), AccountDetails.class));
             }
-            else if(FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).equals("student")) {
+            else if(userType.equals("student")) {
                 startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
             }        }
 
@@ -125,10 +126,7 @@ public class AccountDetails extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(),Login.class));
         }
-        else if(id == R.id.Calender_icon){
-            finish();
-            startActivity(new Intent(getApplicationContext(),Calender_View.class));
-        }
+
         return super.onOptionsItemSelected(item);
     }
 }

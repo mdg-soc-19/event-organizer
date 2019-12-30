@@ -148,10 +148,7 @@ public class AddEvent extends AppCompatActivity {
             finish();
             FirebaseAuth.getInstance().signOut();
         }
-        else if(id == R.id.Calender_icon){
-            finish();
-            startActivity(new Intent(getApplicationContext(),Calender_View.class));
-        }
+
         return super.onOptionsItemSelected(item);
     }
 }

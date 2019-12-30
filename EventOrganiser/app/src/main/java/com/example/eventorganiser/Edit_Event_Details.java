@@ -43,7 +43,7 @@ public class Edit_Event_Details extends AppCompatActivity {
         Date = getIntent().getStringExtra("Date");
         Time = getIntent().getStringExtra("Time");
         Venue = getIntent().getStringExtra("Venue");
-        key = getIntent().getStringExtra("key");
+      //  key = getIntent().getStringExtra("key");
 
         eventName.setText(EventName);
         description.setText(Description);

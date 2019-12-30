@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ public class Home extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private DatabaseReference mDatabase , pDatabase;
+    FloatingActionButton calendarBtn;
     String date , userType;
 
     @Override
@@ -31,10 +33,18 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mRecyclerView = (RecyclerView) findViewById(R.id.HomeRecyclerView);
+        calendarBtn = (FloatingActionButton)findViewById(R.id.calendar_btn);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         mDatabase.keepSynced(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         pDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        calendarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),Calender_View.class));
+            }
+        });
 
 
         pDatabase.addValueEventListener(new ValueEventListener() {
@@ -60,10 +70,10 @@ public class Home extends AppCompatActivity {
             protected void populateViewHolder(EventViewHolder viewHolder,Event model,int position){
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
-                viewHolder.setDescription(model.getSpecifications());
-                viewHolder.setPrerequisite(model.getPrerequisite());
-                viewHolder.setDate(model.getDate());
-                viewHolder.setTime(model.getTime());
+                viewHolder.setDescription("Specifications: "+model.getSpecifications());
+                viewHolder.setPrerequisite("Prerequisite: "+model.getPrerequisite());
+                viewHolder.setDate("Date: "+model.getDate());
+                viewHolder.setTime("Time: "+model.getTime());
                 viewHolder.setVenue(model.getVenue());
             }
         };
@@ -141,10 +151,7 @@ public class Home extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(),Login.class));
         }
-        else if(id == R.id.Calender_icon){
-            finish();
-            startActivity(new Intent(getApplicationContext(),Calender_View.class));
-        }
+
 
     return super.onOptionsItemSelected(item);
     }
