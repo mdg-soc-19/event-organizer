@@ -1,6 +1,5 @@
 package com.example.eventorganiser;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,13 +19,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class MyEvents extends AppCompatActivity {
 
+    FirebaseDatabase db= FirebaseDatabase.getInstance();
     FloatingActionButton addEvent;
     private RecyclerView mRecyclerView;
     private DatabaseReference mDatabase,pDatabase;
+    Query rDatabase;
     private String grpName,userType;
 
     @Override
@@ -36,9 +38,11 @@ public class MyEvents extends AppCompatActivity {
 
         addEvent = (FloatingActionButton) findViewById(R.id.AddEvent);
         mRecyclerView = (RecyclerView)findViewById(R.id.MyEventsGLRecyclerView);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
+        mDatabase = db.getReference().child("Events");
         mDatabase.keepSynced(true);
-        pDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        rDatabase=mDatabase.orderByChild("name_of_grp");
+        rDatabase.keepSynced(true);
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -53,7 +57,7 @@ public class MyEvents extends AppCompatActivity {
             }
         });
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +71,9 @@ public class MyEvents extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event, EventViewHolder>
-                (Event.class,R.layout.cards_my_events_gl, EventViewHolder.class,mDatabase.orderByChild("name_of_grp").equalTo(grpName)){
+                (Event.class,R.layout.cards_my_events_gl, EventViewHolder.class,rDatabase.equalTo(grpName)){
             protected void populateViewHolder(EventViewHolder viewHolder, final Event model, int position) {
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
@@ -80,22 +85,24 @@ public class MyEvents extends AppCompatActivity {
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
-                    public void onItemClick(View view, int position) {
+                    public void onClick(View view, int position) {
                         String NameofEvent = model.getName_of_event();
                         String description = model.getSpecifications();
                         String prerequisite = model.getPrerequisite();
                         String date = model.getDate();
                         String time = model.getTime();
                         String venue = model.getVenue();
+                        String key = model.getKey();
 
-                        Intent intent = new Intent(getApplicationContext(),Edit_Event_Details.class);
-                        intent.putExtra("EventName",NameofEvent);
-                        intent.putExtra("Description",description);
-                        intent.putExtra("Prerequisite",prerequisite);
-                        intent.putExtra("Date",date);
-                        intent.putExtra("Time",time);
-                        intent.putExtra("Venue",venue);
-                        startActivity(intent);
+                        Intent in = new Intent(MyEvents.this,Edit_Event_Details.class);
+                        in.putExtra("EventName",NameofEvent);
+                        in.putExtra("Description",description);
+                        in.putExtra("Prerequisite",prerequisite);
+                        in.putExtra("Date",date);
+                        in.putExtra("Time",time);
+                        in.putExtra("Venue",venue);
+                        in.putExtra("key",key);
+                        startActivity(in);
                     }
                 });
             }
@@ -105,8 +112,6 @@ public class MyEvents extends AppCompatActivity {
     }
     public static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View mView;
-        private final Context context;
-        String key;
         TextView EventName,Description,Prerequisite,Date,Time,Venue;
         ItemClickListener itemClickListener;
 
@@ -114,7 +119,6 @@ public class MyEvents extends AppCompatActivity {
             super(itemView);
             mView=itemView;
             mView.setClickable(true);
-            context = itemView.getContext();
             itemView.setOnClickListener(this);
 
             EventName = (TextView)mView.findViewById(R.id.gl_EventName);
@@ -125,6 +129,8 @@ public class MyEvents extends AppCompatActivity {
             Venue = (TextView)mView.findViewById(R.id.gl_Venue);
 
         }
+
+
 
         public void setName_of_Grp(String name_of_grp){
             TextView GrpName = (TextView)mView.findViewById(R.id.gl_GrpName);
@@ -151,7 +157,8 @@ public class MyEvents extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            this.itemClickListener.onItemClick(view,getAdapterPosition());
+            if (itemClickListener != null)
+            this.itemClickListener.onClick(view,getAdapterPosition());
         }
 
         public void setItemClickListener(ItemClickListener ic){

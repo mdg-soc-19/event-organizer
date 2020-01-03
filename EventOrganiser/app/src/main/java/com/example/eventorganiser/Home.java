@@ -66,7 +66,7 @@ public class Home extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
-                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase.orderByChild("date").equalTo(date)){
+                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase){
             protected void populateViewHolder(EventViewHolder viewHolder,Event model,int position){
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
@@ -75,16 +75,27 @@ public class Home extends AppCompatActivity {
                 viewHolder.setDate("Date: "+model.getDate());
                 viewHolder.setTime("Time: "+model.getTime());
                 viewHolder.setVenue(model.getVenue());
+
+                viewHolder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        startActivity(new Intent(getApplicationContext(),FeedbackStudent.class));
+                    }
+                });
             }
         };
 
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
     }
-    public static class EventViewHolder extends RecyclerView.ViewHolder{
+    public static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View mView;
+        ItemClickListener itemClickListener;
+
         public EventViewHolder(View itemView){
             super(itemView);
             mView=itemView;
+            mView.setClickable(true);
+            itemView.setOnClickListener(this);
         }
         public void setName_of_Grp(String name_of_grp){
             TextView GrpName = (TextView)mView.findViewById(R.id.GrpName);
@@ -113,6 +124,15 @@ public class Home extends AppCompatActivity {
         public void setVenue(String venue){
             TextView Venue = (TextView)mView.findViewById(R.id.Venue);
             Venue.setText(venue);
+        }
+
+        public void onClick(View view){
+            if (itemClickListener!=null){
+                this.itemClickListener.onClick(view,getAdapterPosition());
+            }
+        }
+        public void setItemClickListener(ItemClickListener ic){
+            this.itemClickListener = ic;
         }
 
     }

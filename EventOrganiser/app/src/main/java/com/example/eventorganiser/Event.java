@@ -8,8 +8,9 @@ public class Event {
     private String specifications;
     private String prerequisite;
     private String time;
+    private String key;
 
-    public Event(String name_of_grp, String name_of_event, String date_and_time, String venue, String specifications, String prerequisite,String time) {
+    public Event(String name_of_grp, String name_of_event, String date_and_time, String venue, String specifications, String prerequisite,String time,String key) {
         this.name_of_grp = name_of_grp;
         this.name_of_event = name_of_event;
         this.date = date_and_time;
@@ -17,6 +18,7 @@ public class Event {
         this.specifications = specifications;
         this.prerequisite = prerequisite;
         this.time = time;
+        this.key = key;
     }
 
     public Event() {
@@ -75,5 +77,13 @@ public class Event {
 
     public void setPrerequisite(String prerequisite) {
         this.prerequisite = prerequisite;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Edit_Event_Details"></activity>
+        <activity android:name=".MyEventsStudent"></activity>
+        <activity android:name=".Feedbacks" />
+        <activity android:name=".FeedbackStudent" />
+        <activity android:name=".Edit_Event_Details" />
         <activity android:name=".UpdateStudentDetails" />
         <activity android:name=".AccountDetails_Student" />
         <activity android:name=".UpdateGroupLeaderDetails" />

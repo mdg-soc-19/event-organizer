@@ -3,5 +3,5 @@ package com.example.eventorganiser;
 import android.view.View;
 
 public interface ItemClickListener {
-    void onItemClick(View view,int position);
+    void onClick(View view,int position);
 }

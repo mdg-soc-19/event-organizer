@@ -52,6 +52,7 @@ public class FirebaseDatabaseHelper {
 
     public void addEvent (Event event,final DataStatus dataStatus){
         String key = mReferenceEvents.push().getKey();
+        event.setKey(key);
         mReferenceEvents.child(key).setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

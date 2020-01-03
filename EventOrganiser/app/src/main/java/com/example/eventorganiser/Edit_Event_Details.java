@@ -20,7 +20,7 @@ public class Edit_Event_Details extends AppCompatActivity {
 
     private TextView eventName,description,prerequisite,date,time,venue;
     private String EventName,Description,Prerequisite,Date,Time,Venue,key;
-    private Button Save_changes,delete,back;
+    private Button Save_changes,delete,back,SeeFeedback;
     DatabaseReference mDatabase;
 
     @Override
@@ -36,6 +36,7 @@ public class Edit_Event_Details extends AppCompatActivity {
         Save_changes = (Button)findViewById(R.id.EditSaveChanges_btn);
         delete = (Button)findViewById(R.id.EditDelete_btn);
         back = (Button)findViewById(R.id.EditBack_btn);
+        SeeFeedback = (Button)findViewById(R.id.see_feedbacks_btn);
 
         EventName = getIntent().getStringExtra("EventName");
         Description = getIntent().getStringExtra("Description");
@@ -43,7 +44,7 @@ public class Edit_Event_Details extends AppCompatActivity {
         Date = getIntent().getStringExtra("Date");
         Time = getIntent().getStringExtra("Time");
         Venue = getIntent().getStringExtra("Venue");
-      //  key = getIntent().getStringExtra("key");
+        key = getIntent().getStringExtra("key");
 
         eventName.setText(EventName);
         description.setText(Description);
@@ -114,6 +115,16 @@ public class Edit_Event_Details extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
                 startActivity(new Intent(getApplicationContext(),MyEvents.class));
+            }
+        });
+
+        SeeFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(getApplicationContext(),Edit_Event_Details.class);
+                in.putExtra("key",mDatabase.getKey());
+                startActivity(in);
+                finish();
             }
         });
     }
