@@ -89,8 +89,8 @@ public class Edit_Event_Details extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getApplicationContext(),"Event Details updated successfully.",Toast.LENGTH_SHORT).show();
-                        finish();
                         startActivity(new Intent(getApplicationContext(),MyEvents.class));
+                        finish();
                     }
                 });
             }
@@ -103,8 +103,8 @@ public class Edit_Event_Details extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getApplicationContext(),"Event deleted successfully.",Toast.LENGTH_SHORT).show();
-                        finish();
                         startActivity(new Intent(getApplicationContext(),MyEvents.class));
+                        finish();
                     }
                 });
             }
@@ -113,8 +113,8 @@ public class Edit_Event_Details extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 startActivity(new Intent(getApplicationContext(),MyEvents.class));
+                finish();
             }
         });
 

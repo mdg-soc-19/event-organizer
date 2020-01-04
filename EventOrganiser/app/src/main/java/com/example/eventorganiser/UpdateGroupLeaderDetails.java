@@ -67,8 +67,8 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
-                        finish();
                         startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+                        finish();
                     }
                 });
             }
@@ -77,8 +77,8 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+                finish();
             }
         });
     }

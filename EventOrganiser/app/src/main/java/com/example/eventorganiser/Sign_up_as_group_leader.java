@@ -86,8 +86,8 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                             });
 
                             Toast.makeText(Sign_up_as_group_leader.this,"User Created",Toast.LENGTH_SHORT).show();
-                            finish();
                             startActivity(new Intent(getApplicationContext(),Login.class));
+                            finish();
                         }
                         else{
                             Toast.makeText(Sign_up_as_group_leader.this,"Error !"+ task.getException().getMessage(),Toast.LENGTH_SHORT).show();

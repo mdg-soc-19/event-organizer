@@ -95,24 +95,32 @@ public class Feedbacks extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.Home) {
-            finish();
             startActivity(new Intent(getApplicationContext(), Home.class));
-        } else if (id == R.id.AccountDetails) {
             finish();
+        }
+        else if (id == R.id.AccountDetails) {
             if (userType.equals("group")) {
                 startActivity(new Intent(getApplicationContext(), AccountDetails.class));
+                finish();
             } else if (userType.equals("student")) {
                 startActivity(new Intent(getApplicationContext(), AccountDetails_Student.class));
+                finish();
             }
         }
         else if (id == R.id.MyEvents) {
-            finish();
-            startActivity(new Intent(getApplicationContext(), MyEvents.class));
+            if(userType.equals("group")) {
+                startActivity(new Intent(getApplicationContext(), MyEvents.class));
+                finish();
+            }
+            else if(userType.equals("student")) {
+                startActivity(new Intent(getApplicationContext(),MyEventsStudent.class));
+                finish();
+            }
         }
         else if (id == R.id.Logout) {
-            finish();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), Login.class));
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

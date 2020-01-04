@@ -26,7 +26,7 @@ public class AddEvent extends AppCompatActivity {
     private EditText nameOfEvent,date,venueOfEvent,specifications,prerequisite,time;
     private Button submitBtn;
     private Button back_btn;
-    private String nameOfGroup;
+    private String nameOfGroup,userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class AddEvent extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nameOfGroup = String.valueOf(dataSnapshot.child("groupName").getValue());
+                userType = String.valueOf(dataSnapshot.child("userType").getValue());
             }
 
             @Override
@@ -118,8 +119,8 @@ public class AddEvent extends AppCompatActivity {
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 startActivity(new Intent(AddEvent.this,MyEvents.class));
+                finish();
             }
         });
     }
@@ -132,21 +133,34 @@ public class AddEvent extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.Home){
-            finish();
             startActivity(new Intent(getApplicationContext(),Home.class));
+            finish();
         }
         else if(id == R.id.AccountDetails){
-            finish();
-            startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+            if(userType.equals("group")) {
+                startActivity(new Intent(getApplicationContext(), AccountDetails.class));
+                finish();
+            }
+            else if(userType.equals("student")) {
+                startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
+                finish();
+            }
         }
 
         else if(id == R.id.MyEvents){
-            finish();
-            startActivity(new Intent(getApplicationContext(),MyEvents.class));
+            if(userType.equals("group")) {
+                startActivity(new Intent(getApplicationContext(), MyEvents.class));
+                finish();
+            }
+            else if(userType.equals("student")) {
+                startActivity(new Intent(getApplicationContext(),MyEventsStudent.class));
+                finish();
+            }
         }
         else if(id == R.id.Logout){
-            finish();
             FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getApplicationContext(),Login.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

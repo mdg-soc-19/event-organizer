@@ -151,8 +151,8 @@ public class Home extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.Home){
-            finish();
             startActivity(new Intent(getApplicationContext(),Home.class));
+            finish();
         }
         else if(id == R.id.AccountDetails){
             if(userType.equals("student")){
@@ -164,12 +164,17 @@ public class Home extends AppCompatActivity {
         }
 
         else if(id == R.id.MyEvents){
-            startActivity(new Intent(getApplicationContext(),MyEvents.class));
+            if(userType.equals("group")) {
+                startActivity(new Intent(getApplicationContext(), MyEvents.class));
+            }
+            else if(userType.equals("student")) {
+                startActivity(new Intent(getApplicationContext(),MyEventsStudent.class));
+            }
         }
         else if(id == R.id.Logout){
-            finish();
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(),Login.class));
+            finish();
         }
 
 
