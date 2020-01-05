@@ -16,15 +16,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class Home extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private DatabaseReference mDatabase;
-    MaterialSearchView searchView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +31,8 @@ public class Home extends AppCompatActivity {
         mDatabase.keepSynced(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        /*Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Material Search");
-        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-
-        searchView = (MaterialSearchView)findViewById(R.id.searchView);*/
+        Bundle bundle = getIntent().getExtras();
+        String message = bundle.getString("date");
 
     }
 
@@ -53,7 +45,7 @@ public class Home extends AppCompatActivity {
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
                 viewHolder.setDescription(model.getSpecifications());
-                viewHolder.setDateAndTime(model.getDate_and_time());
+                viewHolder.setDateAndTime(model.getDate());
                 viewHolder.setVenue(model.getVenue());
             }
         };

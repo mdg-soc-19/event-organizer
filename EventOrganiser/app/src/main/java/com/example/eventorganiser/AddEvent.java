@@ -19,7 +19,7 @@ import java.util.List;
 
 public class AddEvent extends AppCompatActivity {
 
-    private EditText nameOfGroup,nameOfEvent,dateAndTime,venueOfEvent,specifications,prerequisite;
+    private EditText nameOfGroup,nameOfEvent,date,venueOfEvent,specifications,prerequisite,time;
     private Button submitBtn;
     private Button back_btn;
 
@@ -30,33 +30,37 @@ public class AddEvent extends AppCompatActivity {
 
         nameOfGroup = (EditText)findViewById(R.id.NameOfGroup);
         nameOfEvent = (EditText) findViewById(R.id.NameOfEvent);
-        dateAndTime = (EditText) findViewById(R.id.DateAndTime);
+        date = (EditText) findViewById(R.id.Date);
         venueOfEvent = (EditText)findViewById(R.id.VenueOfEvent);
         specifications = (EditText)findViewById(R.id.Specifications);
         prerequisite = (EditText)findViewById(R.id.Prerequisite);
         submitBtn = (Button)findViewById(R.id.Submit_btn);
         back_btn = (Button)findViewById(R.id.Back_btn);
+        time = (EditText)findViewById(R.id.Time);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Event event = new Event();
-                event.setDate_and_time(dateAndTime.getText().toString());
+                event.setDate(date.getText().toString());
                 event.setName_of_event(nameOfEvent.getText().toString());
                 event.setName_of_grp(nameOfGroup.getText().toString());
                 event.setPrerequisite(prerequisite.getText().toString());
                 event.setSpecifications(specifications.getText().toString());
                 event.setVenue(venueOfEvent.getText().toString());
+                event.setTime(time.getText().toString());
 
-                String DateAndTime = dateAndTime.getText().toString().trim();
+
+                String DateAndTime = date.getText().toString().trim();
                 String NameOfEvent = nameOfEvent.getText().toString().trim();
                 String nameOfGrp = nameOfGroup.getText().toString().trim();
                 String Prerequisite = prerequisite.getText().toString().trim();
                 String Specifications = specifications.getText().toString().trim();
                 String Venue = venueOfEvent.getText().toString().trim();
+                String Time = time.getText().toString().trim();
 
                 if(TextUtils.isEmpty(DateAndTime)){
-                    dateAndTime.setError("This field is required");
+                    date.setError("This field is required");
                 }
                 if(TextUtils.isEmpty(nameOfGrp)){
                     nameOfGroup.setError("This field is required");
@@ -72,6 +76,9 @@ public class AddEvent extends AppCompatActivity {
                 }
                 if(TextUtils.isEmpty(Venue)){
                     venueOfEvent.setError("This field is required");
+                }
+                if (TextUtils.isEmpty(Time)){
+                    time.setError("This field is required");
                 }
 
                 new FirebaseDatabaseHelper().addEvent(event, new FirebaseDatabaseHelper.DataStatus() {

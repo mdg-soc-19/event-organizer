@@ -3,18 +3,20 @@ package com.example.eventorganiser;
 public class Event {
     private String name_of_grp;
     private String name_of_event;
-    private String date_and_time;
+    private String date;
     private String venue;
     private String specifications;
     private String prerequisite;
+    private String time;
 
-    public Event(String name_of_grp, String name_of_event, String date_and_time, String venue, String specifications, String prerequisite) {
+    public Event(String name_of_grp, String name_of_event, String date_and_time, String venue, String specifications, String prerequisite,String time) {
         this.name_of_grp = name_of_grp;
         this.name_of_event = name_of_event;
-        this.date_and_time = date_and_time;
+        this.date = date_and_time;
         this.venue = venue;
         this.specifications = specifications;
         this.prerequisite = prerequisite;
+        this.time = time;
     }
 
     public Event() {
@@ -36,12 +38,19 @@ public class Event {
         this.name_of_event = name_of_event;
     }
 
-    public String getDate_and_time() {
-        return date_and_time;
+    public String getDate() {
+        return date;
     }
 
-    public void setDate_and_time(String date_and_time) {
-        this.date_and_time = date_and_time;
+    public void setDate(String date) {
+        this.date = date;
+    }
+    public String getTime(String time){
+        return time;
+    }
+
+    public void setTime(String time){
+        this.time = time;
     }
 
     public String getVenue() {

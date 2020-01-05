@@ -2,9 +2,11 @@ package com.example.eventorganiser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,10 +38,22 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        FirebaseRecyclerOptions<Event> options =
+                new FirebaseRecyclerOptions.Builder<Event>()
+                        .setQuery(mDatabase, Event.class)
+                        .build();
 
-        FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
-                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase){
-            protected void populateViewHolder(EventViewHolder viewHolder,Event model,int position){
+
+        FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>(options)
+                {
+                    public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.activity_home, parent, false);
+
+                        return new EventViewHolder(view);
+                    }
+
+                    protected void onBindViewHolder(EventViewHolder viewHolder,int position,Event model){
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
                 viewHolder.setDescription(model.getSpecifications());
