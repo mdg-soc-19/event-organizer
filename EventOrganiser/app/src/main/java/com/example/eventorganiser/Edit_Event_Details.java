@@ -166,8 +166,8 @@ public class Edit_Event_Details extends AppCompatActivity {
         SeeFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(),Edit_Event_Details.class);
-                in.putExtra("key",mDatabase.getKey());
+                Intent in = new Intent(getApplicationContext(),Feedback.class);
+                in.putExtra("eventKey",key);
                 startActivity(in);
                 finish();
             }

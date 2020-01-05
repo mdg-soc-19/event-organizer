@@ -10,10 +10,10 @@ public class Event {
     private String time;
     private String key;
 
-    public Event(String name_of_grp, String name_of_event, String date_and_time, String venue, String specifications, String prerequisite,String time,String key) {
+    public Event(String name_of_grp, String name_of_event, String date, String venue, String specifications, String prerequisite,String time,String key) {
         this.name_of_grp = name_of_grp;
         this.name_of_event = name_of_event;
-        this.date = date_and_time;
+        this.date = date;
         this.venue = venue;
         this.specifications = specifications;
         this.prerequisite = prerequisite;

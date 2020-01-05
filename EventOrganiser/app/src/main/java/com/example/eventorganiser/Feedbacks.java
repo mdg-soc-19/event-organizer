@@ -32,6 +32,8 @@ public class Feedbacks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedbacks);
 
+        key = getIntent().getStringExtra("eventKey");
+
         recyclerView = (RecyclerView) findViewById(R.id.FeedbackRecyclerView);
         mDatabase = db.getReference("Events").child(key).child("Feedback");
         mDatabase.keepSynced(true);

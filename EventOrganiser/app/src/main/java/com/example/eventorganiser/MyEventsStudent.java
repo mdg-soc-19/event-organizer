@@ -25,7 +25,7 @@ public class MyEventsStudent extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private DatabaseReference mDatabase,pDatabase;
+    private DatabaseReference pDatabase;
     String userType;
     List<String> keys = new ArrayList<>();
 
@@ -35,19 +35,13 @@ public class MyEventsStudent extends AppCompatActivity {
         setContentView(R.layout.activity_my_events_student);
 
         recyclerView = (RecyclerView)findViewById(R.id.StudentRecyclerView);
-        mDatabase = db.getReference("Events");
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        mDatabase.keepSynced(true);
         pDatabase.keepSynced(true);
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userType = String.valueOf(dataSnapshot.child("userType").getValue());
-                for (DataSnapshot keyNode : dataSnapshot.child("Feedback").getChildren()){
-                    keys.add(keyNode.getValue(String.class));
-                }
-                onStart();
             }
 
             @Override
@@ -61,9 +55,8 @@ public class MyEventsStudent extends AppCompatActivity {
         super.onStart();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         FirebaseRecyclerAdapter<Event, Home.EventViewHolder> firebaseRecyclerAdapter;
-        for(String key : keys) {
             firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, Home.EventViewHolder>
-                    (Event.class, R.layout.material_card_view, Home.EventViewHolder.class, mDatabase.child(key)) {
+                    (Event.class, R.layout.material_card_view, Home.EventViewHolder.class,pDatabase.child("MyEvents")) {
                 @Override
                 protected void populateViewHolder(Home.EventViewHolder eventViewHolder, Event event, int i) {
                     eventViewHolder.setName_of_Grp(event.getName_of_grp());
@@ -75,9 +68,7 @@ public class MyEventsStudent extends AppCompatActivity {
                     eventViewHolder.setVenue(event.getVenue());
                 }
             };
-
             recyclerView.setAdapter(firebaseRecyclerAdapter);
-        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu){

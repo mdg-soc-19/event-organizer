@@ -27,6 +27,7 @@ public class Home extends AppCompatActivity {
     private DatabaseReference mDatabase , pDatabase;
     FloatingActionButton calendarBtn;
     String date , userType;
+    String key,groupName,eventName,eventSpecs,eventPrerequisite,eventDate,eventTime,eventVenue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,13 @@ public class Home extends AppCompatActivity {
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
                 (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase){
             protected void populateViewHolder(EventViewHolder viewHolder, final Event model, int position){
+                groupName = model.getName_of_grp();
+                eventName = model.getName_of_event();
+                eventSpecs = model.getSpecifications();
+                eventDate = model.getDate();
+                eventTime = model.getTime();
+                eventPrerequisite = model.getPrerequisite();
+                eventVenue = model.getVenue();
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
                 viewHolder.setDescription("Specifications: "+model.getSpecifications());
@@ -76,12 +84,20 @@ public class Home extends AppCompatActivity {
                 viewHolder.setDate("Date: "+model.getDate());
                 viewHolder.setTime("Time: "+model.getTime());
                 viewHolder.setVenue(model.getVenue());
+                key = model.getKey();
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
                         Intent in = new Intent(getApplicationContext(),FeedbackStudent.class);
-                        in.putExtra("key",model.getKey());
+                        in.putExtra("groupName",groupName);
+                        in.putExtra("eventName",eventName);
+                        in.putExtra("eventSpecs",eventSpecs);
+                        in.putExtra("eventDate",eventDate);
+                        in.putExtra("eventTime",eventTime);
+                        in.putExtra("eventPrerequisite",eventPrerequisite);
+                        in.putExtra("eventVenue",eventVenue);
+                        in.putExtra("key",key);
                         startActivity(in);
                     }
                 });

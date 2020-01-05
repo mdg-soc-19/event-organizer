@@ -22,6 +22,8 @@ public class FeedbackStudent extends AppCompatActivity {
     TextView feedback;
     DatabaseReference mDatabase, pDatabase;
     String eventKey, username;
+    String groupName,eventName,eventSpecs,eventPrerequisite,eventDate,eventTime,eventVenue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,14 @@ public class FeedbackStudent extends AppCompatActivity {
         submitFeedback = (Button) findViewById(R.id.submit_feedback_btn);
         feedback = (TextView) findViewById(R.id.feedback);
         eventKey = getIntent().getStringExtra("key");
+        groupName = getIntent().getStringExtra("groupName");
+        eventName = getIntent().getStringExtra("eventName");
+        eventDate = getIntent().getStringExtra("eventDate");
+        eventTime = getIntent().getStringExtra("eventTime");
+        eventPrerequisite = getIntent().getStringExtra("eventPrerequisite");
+        eventSpecs = getIntent().getStringExtra("eventSpecs");
+        eventVenue = getIntent().getStringExtra("eventVenue");
+
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("MyEvents");
         pDatabase = FirebaseDatabase.getInstance().getReference("Events").child(eventKey).child("Feedback");
 
@@ -40,7 +50,8 @@ public class FeedbackStudent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String key = mDatabase.push().getKey();
-                mDatabase.child(key).setValue(eventKey);
+                Event event = new Event(groupName,eventName,eventDate,eventVenue,eventSpecs,eventPrerequisite,eventTime,eventKey);
+                mDatabase.child(key).setValue(event);
                 Toast.makeText(getApplicationContext(),"Event added successfully",Toast.LENGTH_SHORT).show();
             }
         });
