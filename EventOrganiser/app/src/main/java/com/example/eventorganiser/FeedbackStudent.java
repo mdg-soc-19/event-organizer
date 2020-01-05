@@ -1,5 +1,6 @@
 package com.example.eventorganiser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FeedbackStudent extends AppCompatActivity {
 
-    Button addToMyEvents, submitFeedback;
+    Button addToMyEvents, submitFeedback,back;
     TextView feedback;
     DatabaseReference mDatabase, pDatabase;
     String eventKey, username;
@@ -30,10 +31,11 @@ public class FeedbackStudent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_student);
 
-        addToMyEvents = (Button) findViewById(R.id.AddToMyEvents);
-        submitFeedback = (Button) findViewById(R.id.submit_feedback_btn);
-        feedback = (TextView) findViewById(R.id.feedback);
-        eventKey = getIntent().getStringExtra("key");
+        addToMyEvents =  findViewById(R.id.AddToMyEvents);
+        submitFeedback =  findViewById(R.id.submit_feedback_btn);
+        back = findViewById(R.id.feedback_back_btn);
+        feedback =  findViewById(R.id.feedback);
+        eventKey = getIntent().getStringExtra("eventKey");
         groupName = getIntent().getStringExtra("groupName");
         eventName = getIntent().getStringExtra("eventName");
         eventDate = getIntent().getStringExtra("eventDate");
@@ -77,8 +79,13 @@ public class FeedbackStudent extends AppCompatActivity {
 
             }
 
-            ;
-
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),Home.class));
+                finish();
+            }
         });
     }
 }

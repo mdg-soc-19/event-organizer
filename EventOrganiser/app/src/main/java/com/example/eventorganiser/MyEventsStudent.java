@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,23 +20,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MyEventsStudent extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference pDatabase;
     String userType;
-    List<String> keys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events_student);
 
-        recyclerView = (RecyclerView)findViewById(R.id.StudentRecyclerView);
+        recyclerView = findViewById(R.id.StudentRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         pDatabase.keepSynced(true);
 
@@ -51,14 +50,52 @@ public class MyEventsStudent extends AppCompatActivity {
         });
     }
 
+    public static class EventViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+
+        public EventViewHolder(View itemView){
+            super(itemView);
+            mView=itemView;
+            mView.setClickable(true);
+        }
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.GrpName);
+            GrpName.setText(name_of_grp);
+        }
+        void setName_of_Event(String name_of_event){
+            TextView EventName = mView.findViewById(R.id.EventName);
+            EventName.setText(name_of_event);
+        }
+        void setDescription(String description){
+            TextView Description = mView.findViewById(R.id.Description);
+            Description.setText(description);
+        }
+        void setPrerequisite(String prerequisite){
+            TextView Prerequisite = mView.findViewById(R.id.CardPrerequisite);
+            Prerequisite.setText(prerequisite);
+        }
+        public void setDate(String date){
+            TextView Date = mView.findViewById(R.id.CardDate);
+            Date.setText(date);
+        }
+        public void setTime(String time){
+            TextView Time = mView.findViewById(R.id.CardTime);
+            Time.setText(time);
+        }
+        public void setVenue(String venue){
+            TextView Venue = mView.findViewById(R.id.Venue);
+            Venue.setText(venue);
+        }
+
+    }
+
     protected void onStart(){
         super.onStart();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        FirebaseRecyclerAdapter<Event, Home.EventViewHolder> firebaseRecyclerAdapter;
-            firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event, Home.EventViewHolder>
-                    (Event.class, R.layout.material_card_view, Home.EventViewHolder.class,pDatabase.child("MyEvents")) {
+        FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
+            firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event,EventViewHolder>
+                    (Event.class, R.layout.material_card_view, EventViewHolder.class,pDatabase.child("MyEvents")) {
                 @Override
-                protected void populateViewHolder(Home.EventViewHolder eventViewHolder, Event event, int i) {
+                protected void populateViewHolder(EventViewHolder eventViewHolder, Event event, int i) {
                     eventViewHolder.setName_of_Grp(event.getName_of_grp());
                     eventViewHolder.setName_of_Event(event.getName_of_event());
                     eventViewHolder.setDescription(event.getSpecifications());

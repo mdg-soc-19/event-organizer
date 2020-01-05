@@ -1,6 +1,7 @@
 package com.example.eventorganiser;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,7 +30,7 @@ public class Edit_Event_Details extends AppCompatActivity {
 
     private TextView eventName,description,prerequisite,date,time,venue;
     private String EventName,Description,Prerequisite,Date,Time,Venue,key;
-    private Button Save_changes,delete,back,SeeFeedback;
+    Button Save_changes,delete,back,SeeFeedback;
     DatabaseReference mDatabase;
     DatePickerDialog datePickerDialog;
     int year;
@@ -41,16 +43,16 @@ public class Edit_Event_Details extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit__event__details);
-        eventName = (TextView)findViewById(R.id.EditNameOfEvent);
-        description = (TextView)findViewById(R.id.EditSpecifications);
-        prerequisite = (TextView)findViewById(R.id.EditPrerequisite);
-        date = (TextView)findViewById(R.id.EditDate);
-        time = (TextView)findViewById(R.id.EditTime);
-        venue = (TextView)findViewById(R.id.EditVenueOfEvent);
-        Save_changes = (Button)findViewById(R.id.EditSaveChanges_btn);
-        delete = (Button)findViewById(R.id.EditDelete_btn);
-        back = (Button)findViewById(R.id.EditBack_btn);
-        SeeFeedback = (Button)findViewById(R.id.see_feedbacks_btn);
+        eventName = findViewById(R.id.EditNameOfEvent);
+        description = findViewById(R.id.EditSpecifications);
+        prerequisite = findViewById(R.id.EditPrerequisite);
+        date = findViewById(R.id.EditDate);
+        time = findViewById(R.id.EditTime);
+        venue = findViewById(R.id.EditVenueOfEvent);
+        Save_changes = findViewById(R.id.EditSaveChanges_btn);
+        delete = findViewById(R.id.EditDelete_btn);
+        back = findViewById(R.id.EditBack_btn);
+        SeeFeedback = findViewById(R.id.see_feedbacks_btn);
 
         EventName = getIntent().getStringExtra("EventName");
         Description = getIntent().getStringExtra("Description");
@@ -99,6 +101,24 @@ public class Edit_Event_Details extends AppCompatActivity {
             }
         });
 
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(Edit_Event_Details.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        time.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
+
         Save_changes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,33 +131,39 @@ public class Edit_Event_Details extends AppCompatActivity {
                 event.setTime(time.getText().toString().trim());
                 event.setVenue(venue.getText().toString().trim());
 
-                if(TextUtils.isEmpty(eventName.toString())){
+                if(TextUtils.isEmpty(EventName)){
                     eventName.setError("This field is required");
                 }
 
-                if(TextUtils.isEmpty(prerequisite.toString())){
-                    prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
-                }
-                if(TextUtils.isEmpty(date.toString())){
+                else if(TextUtils.isEmpty(Date)){
                     date.setError("This field is required");
                 }
-                if(TextUtils.isEmpty(description.toString())){
-                    description.setError("This field is required.If there are no specifications then enter none.");
-                }
-                if(TextUtils.isEmpty(venue.toString())){
-                    venue.setError("This field is required");
-                }
-                if (TextUtils.isEmpty(time.toString())){
+
+                else if (TextUtils.isEmpty(Time)){
                     time.setError("This field is required");
                 }
-                mDatabase.setValue(event).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(),"Event Details updated successfully.",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),MyEvents.class));
-                        finish();
-                    }
-                });
+
+                else if(TextUtils.isEmpty(Venue)){
+                    venue.setError("This field is required");
+                }
+
+                else if(TextUtils.isEmpty(Description)){
+                    description.setError("This field is required.If there are no specifications then enter none.");
+                }
+
+                else if(TextUtils.isEmpty(Prerequisite)){
+                    prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
+                }
+                else {
+                    mDatabase.setValue(event).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "Event Details updated successfully.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MyEvents.class));
+                            finish();
+                        }
+                    });
+                }
             }
         });
 
@@ -166,7 +192,7 @@ public class Edit_Event_Details extends AppCompatActivity {
         SeeFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(getApplicationContext(),Feedback.class);
+                Intent in = new Intent(getApplicationContext(),Feedbacks.class);
                 in.putExtra("eventKey",key);
                 startActivity(in);
                 finish();

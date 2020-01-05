@@ -22,9 +22,8 @@ public class AccountDetails extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private TextView username,groupName,email;
-    private Button edit , changePassword;
+    Button edit , changePassword;
     String userType;
-
     String Username,GroupName,Email;
 
     @Override
@@ -34,11 +33,11 @@ public class AccountDetails extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabase.keepSynced(true);
 
-        username = (TextView)findViewById(R.id.accountDetails_Username);
-        groupName = (TextView)findViewById(R.id.accountDetails_GroupName);
-        email = (TextView)findViewById(R.id.accountDetails_Email);
-        edit = (Button)findViewById(R.id.AccountDetails_Edit);
-        changePassword = (Button)findViewById(R.id.AccountDetails_PassChange);
+        username = findViewById(R.id.accountDetails_Username);
+        groupName = findViewById(R.id.accountDetails_GroupName);
+        email = findViewById(R.id.accountDetails_Email);
+        edit = findViewById(R.id.AccountDetails_Edit);
+        changePassword = findViewById(R.id.AccountDetails_PassChange);
 
 
 
@@ -65,6 +64,7 @@ public class AccountDetails extends AppCompatActivity {
                         intent.putExtra("groupName",GroupName);
                         intent.putExtra("email",Email);
                         startActivity(intent);
+                        finish();
                     }
 
                     @Override

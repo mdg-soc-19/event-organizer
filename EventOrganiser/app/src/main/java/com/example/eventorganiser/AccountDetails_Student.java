@@ -22,9 +22,8 @@ public class AccountDetails_Student extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private TextView username,enrollNo,email,mobileNo;
-    private Button edit , changePassword;
+    Button edit , changePassword;
     String userType;
-
     String Username,EnrollNo,Email,MobileNo;
 
     @Override
@@ -34,12 +33,12 @@ public class AccountDetails_Student extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabase.keepSynced(true);
 
-        username = (TextView)findViewById(R.id.accountDetails_Student_Username);
-        enrollNo = (TextView)findViewById(R.id.accountDetails_Student_EnrollNo);
-        email = (TextView)findViewById(R.id.accountDetails_Student_Email);
-        edit = (Button)findViewById(R.id.AccountDetails_Student_Edit);
-        changePassword = (Button)findViewById(R.id.AccountDetails_Student_PassChange);
-        mobileNo = (TextView)findViewById(R.id.accountDetails_Student_MobileNo);
+        username = findViewById(R.id.accountDetails_Student_Username);
+        enrollNo = findViewById(R.id.accountDetails_Student_EnrollNo);
+        email = findViewById(R.id.accountDetails_Student_Email);
+        edit = findViewById(R.id.AccountDetails_Student_Edit);
+        changePassword = findViewById(R.id.AccountDetails_Student_PassChange);
+        mobileNo = findViewById(R.id.accountDetails_Student_MobileNo);
 
 
 
@@ -61,6 +60,7 @@ public class AccountDetails_Student extends AppCompatActivity {
                         EnrollNo = String.valueOf(dataSnapshot.child("enrollNo").getValue());
                         Email = String.valueOf(dataSnapshot.child("emailId").getValue());
                         MobileNo = String.valueOf(dataSnapshot.child("mobileNo").getValue());
+                        userType = String.valueOf(dataSnapshot.child("userType").getValue());
 
                         Intent intent = new Intent(AccountDetails_Student.this,UpdateStudentDetails.class);
                         intent.putExtra("username",Username);
@@ -68,8 +68,8 @@ public class AccountDetails_Student extends AppCompatActivity {
                         intent.putExtra("email",Email);
                         intent.putExtra("mobileNo",MobileNo);
                         startActivity(intent);
+                        finish();
 
-                        userType = String.valueOf(dataSnapshot.child("userType").getValue());
                     }
 
                     @Override

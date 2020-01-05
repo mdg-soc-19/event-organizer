@@ -27,7 +27,7 @@ public class MyEvents extends AppCompatActivity {
     FirebaseDatabase db= FirebaseDatabase.getInstance();
     FloatingActionButton addEvent;
     private RecyclerView mRecyclerView;
-    private DatabaseReference mDatabase,pDatabase;
+    DatabaseReference mDatabase,pDatabase;
     Query rDatabase;
     private String grpName,userType;
 
@@ -36,8 +36,8 @@ public class MyEvents extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
-        addEvent = (FloatingActionButton) findViewById(R.id.AddEvent);
-        mRecyclerView = (RecyclerView)findViewById(R.id.MyEventsGLRecyclerView);
+        addEvent =  findViewById(R.id.AddEvent);
+        mRecyclerView = findViewById(R.id.MyEventsGLRecyclerView);
         mDatabase = db.getReference().child("Events");
         mDatabase.keepSynced(true);
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -104,6 +104,7 @@ public class MyEvents extends AppCompatActivity {
                         in.putExtra("Venue",venue);
                         in.putExtra("key",key);
                         startActivity(in);
+                        finish();
                     }
                 });
             }
@@ -122,28 +123,28 @@ public class MyEvents extends AppCompatActivity {
             mView.setClickable(true);
             itemView.setOnClickListener(this);
 
-            EventName = (TextView)mView.findViewById(R.id.gl_EventName);
-            Description = (TextView)mView.findViewById(R.id.gl_Description);
-            Prerequisite = (TextView)mView.findViewById(R.id.gl_CardPrerequisite);
-            Date = (TextView)mView.findViewById(R.id.gl_CardDate);
-            Time = (TextView)mView.findViewById(R.id.gl_CardTime);
-            Venue = (TextView)mView.findViewById(R.id.gl_Venue);
+            EventName = mView.findViewById(R.id.gl_EventName);
+            Description = mView.findViewById(R.id.gl_Description);
+            Prerequisite = mView.findViewById(R.id.gl_CardPrerequisite);
+            Date = mView.findViewById(R.id.gl_CardDate);
+            Time = mView.findViewById(R.id.gl_CardTime);
+            Venue = mView.findViewById(R.id.gl_Venue);
 
         }
 
 
 
-        public void setName_of_Grp(String name_of_grp){
-            TextView GrpName = (TextView)mView.findViewById(R.id.gl_GrpName);
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.gl_GrpName);
             GrpName.setText(name_of_grp);
         }
-        public void setName_of_Event(String name_of_event){
+        void setName_of_Event(String name_of_event){
             EventName.setText(name_of_event);
         }
-        public void setDescription(String description){
+        void setDescription(String description){
             Description.setText(description);
         }
-        public void setPrerequisite(String prerequisite){
+        void setPrerequisite(String prerequisite){
             Prerequisite.setText(prerequisite);
         }
         public void setDate(String date){
@@ -162,7 +163,7 @@ public class MyEvents extends AppCompatActivity {
             this.itemClickListener.onClick(view,getAdapterPosition());
         }
 
-        public void setItemClickListener(ItemClickListener ic){
+        void setItemClickListener(ItemClickListener ic){
             this.itemClickListener = ic;
         }
     }
@@ -175,8 +176,8 @@ public class MyEvents extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.Home){
-            finish();
             startActivity(new Intent(getApplicationContext(),Home.class));
+            finish();
         }
         else if(id == R.id.AccountDetails){
             if(userType.equals("group")) {

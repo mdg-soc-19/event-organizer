@@ -19,9 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class UpdateGroupLeaderDetails extends AppCompatActivity {
 
-    private String username, groupName, email;
+    String username, groupName, email;
     private TextView userName, GroupName, Email;
-    private Button update , back;
+    Button update , back;
     private DatabaseReference mDatabase;
 
     @Override
@@ -32,11 +32,11 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
         groupName = getIntent().getStringExtra("groupName");
         email = getIntent().getStringExtra("email");
 
-        userName = (TextView) findViewById(R.id.Edit_Username);
-        GroupName = (TextView) findViewById(R.id.Edit_GroupName);
-        Email = (TextView) findViewById(R.id.Edit_Email);
-        update = (Button) findViewById(R.id.Update);
-        back = (Button)findViewById(R.id.Edit_Back);
+        userName =  findViewById(R.id.Edit_Username);
+        GroupName =  findViewById(R.id.Edit_GroupName);
+        Email =  findViewById(R.id.Edit_Email);
+        update =  findViewById(R.id.Update);
+        back = findViewById(R.id.Edit_Back);
 
         userName.setText(username);
         GroupName.setText(groupName);
@@ -51,26 +51,28 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
                 final String Group_Name = GroupName.getText().toString().trim();
                 final String emailId = Email.getText().toString().trim();
 
-                if (TextUtils.isEmpty(emailId)) {
-                    Email.setError("Email is Required");
-                }
                 if (TextUtils.isEmpty(Username)) {
                     userName.setError("Username is Required");
                 }
 
-                if (TextUtils.isEmpty(Group_Name)) {
+                else if (TextUtils.isEmpty(Group_Name)) {
                     GroupName.setError("Group Name is required");
                 }
 
-                UserDetails userDetails = new UserDetails(Username,Group_Name,emailId,"group");
-                mDatabase.setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),AccountDetails.class));
-                        finish();
-                    }
-                });
+                else if (TextUtils.isEmpty(emailId)) {
+                    Email.setError("Email is Required");
+                }
+                else {
+                    UserDetails userDetails = new UserDetails(Username, Group_Name, emailId, "group");
+                    mDatabase.setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), AccountDetails.class));
+                            finish();
+                        }
+                    });
+                }
             }
         });
 

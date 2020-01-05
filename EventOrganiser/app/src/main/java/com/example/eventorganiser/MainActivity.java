@@ -47,63 +47,66 @@ public class MainActivity extends AppCompatActivity {
                 String password = Password.getText().toString().trim();
                 String cpassword = CPassword.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    Email.setError("Email is Required");
-                }
-
                 if(TextUtils.isEmpty(name)){
                     Name.setError("Name is required");
                 }
 
-                if(TextUtils.isEmpty(mobile)){
-                    Mobile.setError("Mobile number is required");
+                else if(TextUtils.isEmpty(email)){
+                    Email.setError("Email is Required");
                 }
 
-                if(mobile.length() != 10){
-                    Mobile.setError("Invalid mobile number");
-                }
-
-                if(TextUtils.isEmpty(enrollno)){
+                else if(TextUtils.isEmpty(enrollno)){
                     EnrollNo.setError("Enrollment Number is required");
                 }
 
-                if(TextUtils.isEmpty(password)){
+                else if(TextUtils.isEmpty(mobile)){
+                    Mobile.setError("Mobile number is required");
+                }
+
+                else if(mobile.length() != 10){
+                    Mobile.setError("Invalid mobile number");
+                }
+
+                else if(TextUtils.isEmpty(password)){
                     Password.setError("Password is required");
                 }
 
-                if(password.length()<6){
+                else if(password.length()<6){
                     Password.setError("Password must be greater than or equal to 6 Characters");
                     return;
                 }
-                if(!cpassword.equals(password)){
+                else if(!cpassword.equals(password)){
                     CPassword.setError("Password and Confirm Password should be equal");
                 }
 
                 //register the user in Firebase.
 
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                else {
+                    fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        UserDetails userDetails = new UserDetails(name,email,enrollno,mobile,"student");
-                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(getApplicationContext(),"Registered Successfully",Toast.LENGTH_SHORT).show();
+                            UserDetails userDetails = new UserDetails(name, email, enrollno, mobile, "student");
+
+
+                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
+                            });
+                            if (task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, "User Created", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Login.class));
+                                finish();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        });
-                        if(task.isSuccessful()){
-                            Toast.makeText(MainActivity.this,"User Created",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),Login.class));
-                            finish();
                         }
-                        else{
-                            Toast.makeText(MainActivity.this,"Error !"+ task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
 

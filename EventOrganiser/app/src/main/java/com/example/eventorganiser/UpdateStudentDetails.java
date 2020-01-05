@@ -33,12 +33,12 @@ public class UpdateStudentDetails extends AppCompatActivity {
         email = getIntent().getStringExtra("email");
         mobileNo = getIntent().getStringExtra("mobileNo");
 
-        userName = (TextView) findViewById(R.id.Edit2_Username);
-        EnrollNo = (TextView) findViewById(R.id.Edit2_EnrollNo);
-        Email = (TextView) findViewById(R.id.Edit2_Email);
-        update = (Button) findViewById(R.id.Edit2_Update);
-        back = (Button)findViewById(R.id.Edit2_Back);
-        MobileNo =(TextView)findViewById(R.id.Edit2_MobileNo);
+        userName =  findViewById(R.id.Edit2_Username);
+        EnrollNo =  findViewById(R.id.Edit2_EnrollNo);
+        Email =  findViewById(R.id.Edit2_Email);
+        update =  findViewById(R.id.Edit2_Update);
+        back = findViewById(R.id.Edit2_Back);
+        MobileNo =findViewById(R.id.Edit2_MobileNo);
 
         userName.setText(username);
         EnrollNo.setText(enrollNo);
@@ -55,26 +55,36 @@ public class UpdateStudentDetails extends AppCompatActivity {
                 final String emailId = Email.getText().toString().trim();
                 final String Mobile_no = MobileNo.getText().toString().trim();
 
-                if (TextUtils.isEmpty(emailId)) {
+                if(TextUtils.isEmpty(username)){
+                    userName.setError("Name is required");
+                }
+
+                else if(TextUtils.isEmpty(email)){
                     Email.setError("Email is Required");
                 }
-                if (TextUtils.isEmpty(Username)) {
-                    userName.setError("Username is Required");
+
+                else if(TextUtils.isEmpty(enrollNo)){
+                    EnrollNo.setError("Enrollment Number is required");
                 }
 
-                if (TextUtils.isEmpty(Enroll_no)) {
-                    EnrollNo.setError("Group Name is required");
+                else if(TextUtils.isEmpty(mobileNo)){
+                    MobileNo.setError("Mobile number is required");
                 }
 
-                UserDetails userDetails = new UserDetails(Username,emailId,Enroll_no,Mobile_no,"student");
-                mDatabase.setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(),"Updated Successfully",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
-                        finish();
-                    }
-                });
+                else if(mobileNo.length() != 10){
+                    MobileNo.setError("Invalid mobile number");
+                }
+                else {
+                    UserDetails userDetails = new UserDetails(Username, emailId, Enroll_no, Mobile_no, "student");
+                    mDatabase.setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), AccountDetails_Student.class));
+                            finish();
+                        }
+                    });
+                }
             }
         });
 

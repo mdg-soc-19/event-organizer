@@ -1,6 +1,7 @@
 package com.example.eventorganiser;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,8 +29,8 @@ import java.util.List;
 public class AddEvent extends AppCompatActivity {
 
     private EditText nameOfEvent,date,venueOfEvent,specifications,prerequisite,time;
-    private Button submitBtn;
-    private Button back_btn;
+    Button submitBtn;
+    Button back_btn;
     private String nameOfGroup,userType;
     DatePickerDialog datePickerDialog;
     int year;
@@ -42,14 +44,14 @@ public class AddEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
 
-        nameOfEvent = (EditText) findViewById(R.id.NameOfEvent);
-        date = (EditText) findViewById(R.id.Date);
-        venueOfEvent = (EditText)findViewById(R.id.VenueOfEvent);
-        specifications = (EditText)findViewById(R.id.Specifications);
-        prerequisite = (EditText)findViewById(R.id.Prerequisite);
-        submitBtn = (Button)findViewById(R.id.Submit_btn);
-        back_btn = (Button)findViewById(R.id.Back_btn);
-        time = (EditText)findViewById(R.id.Time);
+        nameOfEvent =  findViewById(R.id.NameOfEvent);
+        date =  findViewById(R.id.Date);
+        venueOfEvent = findViewById(R.id.VenueOfEvent);
+        specifications = findViewById(R.id.Specifications);
+        prerequisite = findViewById(R.id.Prerequisite);
+        submitBtn = findViewById(R.id.Submit_btn);
+        back_btn = findViewById(R.id.Back_btn);
+        time = findViewById(R.id.Time);
 
         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,7 +85,23 @@ public class AddEvent extends AppCompatActivity {
             }
         });
 
-
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(AddEvent.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        time.setText( selectedHour + ":" + selectedMinute);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,48 +118,51 @@ public class AddEvent extends AppCompatActivity {
 
                 String DateAndTime = date.getText().toString().trim();
                 String NameOfEvent = nameOfEvent.getText().toString().trim();
-                String nameOfGrp = nameOfGroup;
                 String Prerequisite = prerequisite.getText().toString().trim();
                 String Specifications = specifications.getText().toString().trim();
                 String Venue = venueOfEvent.getText().toString().trim();
                 String Time = time.getText().toString().trim();
 
-                if(TextUtils.isEmpty(DateAndTime)){
-                    date.setError("This field is required");
-                }
-
-                if(TextUtils.isEmpty(Prerequisite)){
-                    prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
-                }
                 if(TextUtils.isEmpty(NameOfEvent)){
                     nameOfEvent.setError("This field is required");
                 }
-                if(TextUtils.isEmpty(Specifications)){
-                    specifications.setError("This field is required.If there are no specifications then enter none.");
+
+                else if(TextUtils.isEmpty(DateAndTime)){
+                    date.setError("This field is required");
                 }
-                if(TextUtils.isEmpty(Venue)){
-                    venueOfEvent.setError("This field is required");
-                }
-                if (TextUtils.isEmpty(Time)){
+
+                else if (TextUtils.isEmpty(Time)){
                     time.setError("This field is required");
                 }
 
-                new FirebaseDatabaseHelper().addEvent(event, new FirebaseDatabaseHelper.DataStatus() {
-                    @Override
-                    public void DataIsLoaded(List<Event> events, List<String> keys) {
+                else if(TextUtils.isEmpty(Venue)){
+                    venueOfEvent.setError("This field is required");
+                }
 
-                    }
+                else if(TextUtils.isEmpty(Specifications)){
+                    specifications.setError("This field is required.If there are no specifications then enter none.");
+                }
 
-                    @Override
-                    public void DataIsInserted() {
-                        Toast.makeText(AddEvent.this,"The event record has been inserted successfully.",Toast.LENGTH_SHORT).show();
-                    }
+                else if(TextUtils.isEmpty(Prerequisite)){
+                    prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
+                }
 
-                    @Override
-                    public void DataIsDeleted() {
+                else {
+                    new FirebaseDatabaseHelper().addEvent(event, new FirebaseDatabaseHelper.DataStatus() {
+                        @Override
+                        public void DataIsLoaded(List<Event> events, List<String> keys) {
 
-                    }
-                });
+                        }
+
+                        @Override
+                        public void DataIsInserted() {
+                            Toast.makeText(AddEvent.this, "The event record has been inserted successfully.", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(), MyEvents.class));
+                            finish();
+                        }
+
+                    });
+                }
             }
         });
 

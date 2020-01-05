@@ -25,9 +25,8 @@ public class Calender_View extends AppCompatActivity {
                 bDate.putString("date",Date);
                 Intent intent = new Intent(Calender_View.this,Home.class);
                 intent.putExtras(bDate);
-                finish();
                 startActivity(intent);
-
+                finish();
             }
         });
 

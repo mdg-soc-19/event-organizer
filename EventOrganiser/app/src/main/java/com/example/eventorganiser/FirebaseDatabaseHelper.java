@@ -14,17 +14,16 @@ import java.util.List;
 
 public class FirebaseDatabaseHelper {
 
-    private FirebaseDatabase mDatabase;
+    FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceEvents;
     private List<Event> events = new ArrayList<>();
 
     public interface DataStatus{
         void DataIsLoaded(List<Event> events,List<String> keys);
         void DataIsInserted();
-        void DataIsDeleted();
     }
 
-    public FirebaseDatabaseHelper() {
+    FirebaseDatabaseHelper() {
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceEvents = mDatabase.getReference("Events");
     }
@@ -50,7 +49,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void addEvent (Event event,final DataStatus dataStatus){
+    void addEvent (Event event,final DataStatus dataStatus){
         String key = mReferenceEvents.push().getKey();
         event.setKey(key);
         mReferenceEvents.child(key).setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {

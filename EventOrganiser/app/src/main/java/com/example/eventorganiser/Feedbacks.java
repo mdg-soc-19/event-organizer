@@ -34,7 +34,7 @@ public class Feedbacks extends AppCompatActivity {
 
         key = getIntent().getStringExtra("eventKey");
 
-        recyclerView = (RecyclerView) findViewById(R.id.FeedbackRecyclerView);
+        recyclerView =  findViewById(R.id.FeedbackRecyclerView);
         mDatabase = db.getReference("Events").child(key).child("Feedback");
         mDatabase.keepSynced(true);
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -50,7 +50,6 @@ public class Feedbacks extends AppCompatActivity {
 
             }
         });
-
     }
 
     public static class FeedbackViewHolder extends RecyclerView.ViewHolder {
@@ -61,8 +60,8 @@ public class Feedbacks extends AppCompatActivity {
         public FeedbackViewHolder(View view) {
             super(view);
             mView = view;
-            username = (TextView) mView.findViewById(R.id.feedback_username);
-            feedback = (TextView) mView.findViewById(R.id.feedback_feedback);
+            username =  mView.findViewById(R.id.feedback_username);
+            feedback =  mView.findViewById(R.id.feedback_feedback);
         }
 
         public void setUsername(String userName) {
@@ -77,10 +76,12 @@ public class Feedbacks extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         FirebaseRecyclerAdapter<Feedback, FeedbackViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Feedback, FeedbackViewHolder>
                 (Feedback.class, R.layout.feedbackcards, FeedbackViewHolder.class, mDatabase) {
             @Override
             protected void populateViewHolder(FeedbackViewHolder feedbackViewHolder, Feedback feedback, int i) {
+
                 feedbackViewHolder.setUsername(feedback.getUsername());
                 feedbackViewHolder.setFeedback(feedback.getFeedback());
             }

@@ -21,20 +21,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class Home extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private DatabaseReference mDatabase , pDatabase;
+    private DatabaseReference mDatabase;
+    DatabaseReference pDatabase;
     FloatingActionButton calendarBtn;
     String date , userType;
-    String key,groupName,eventName,eventSpecs,eventPrerequisite,eventDate,eventTime,eventVenue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        mRecyclerView = (RecyclerView) findViewById(R.id.HomeRecyclerView);
-        calendarBtn = (FloatingActionButton)findViewById(R.id.calendar_btn);
+        mRecyclerView =  findViewById(R.id.HomeRecyclerView);
+        calendarBtn = findViewById(R.id.calendar_btn);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Events");
         mDatabase.keepSynced(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,22 +64,19 @@ public class Home extends AppCompatActivity {
         });
 
        date = getIntent().getStringExtra("date");
-       //Log.d("str","date is"+date);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        if(date == null){
+            java.util.Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy");
+            date = df.format(c);
+        }
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
-                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase){
+                (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase.orderByChild("date").equalTo(date)){
             protected void populateViewHolder(EventViewHolder viewHolder, final Event model, int position){
-                groupName = model.getName_of_grp();
-                eventName = model.getName_of_event();
-                eventSpecs = model.getSpecifications();
-                eventDate = model.getDate();
-                eventTime = model.getTime();
-                eventPrerequisite = model.getPrerequisite();
-                eventVenue = model.getVenue();
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
                 viewHolder.setDescription("Specifications: "+model.getSpecifications());
@@ -84,24 +84,28 @@ public class Home extends AppCompatActivity {
                 viewHolder.setDate("Date: "+model.getDate());
                 viewHolder.setTime("Time: "+model.getTime());
                 viewHolder.setVenue(model.getVenue());
-                key = model.getKey();
 
-                viewHolder.setItemClickListener(new ItemClickListener() {
-                    @Override
-                    public void onClick(View view, int position) {
-                        Intent in = new Intent(getApplicationContext(),FeedbackStudent.class);
-                        in.putExtra("groupName",groupName);
-                        in.putExtra("eventName",eventName);
-                        in.putExtra("eventSpecs",eventSpecs);
-                        in.putExtra("eventDate",eventDate);
-                        in.putExtra("eventTime",eventTime);
-                        in.putExtra("eventPrerequisite",eventPrerequisite);
-                        in.putExtra("eventVenue",eventVenue);
-                        in.putExtra("key",key);
-                        startActivity(in);
-                    }
-                });
-            }
+
+                    viewHolder.setItemClickListener(new ItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Intent in = new Intent(getApplicationContext(), FeedbackStudent.class);
+                            in.putExtra("groupName", model.getName_of_grp());
+                            in.putExtra("eventName", model.getName_of_event());
+                            in.putExtra("eventSpecs", model.getSpecifications());
+                            in.putExtra("eventDate", model.getDate());
+                            in.putExtra("eventTime", model.getTime());
+                            in.putExtra("eventPrerequisite", model.getPrerequisite());
+                            in.putExtra("eventVenue", model.getVenue());
+                            in.putExtra("eventKey", model.getKey());
+                            if(userType.equals("student")) {
+                                startActivity(in);
+                                finish();
+                            }
+                        }
+                    });
+                }
+
         };
 
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
@@ -116,32 +120,32 @@ public class Home extends AppCompatActivity {
             mView.setClickable(true);
             itemView.setOnClickListener(this);
         }
-        public void setName_of_Grp(String name_of_grp){
-            TextView GrpName = (TextView)mView.findViewById(R.id.GrpName);
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.GrpName);
             GrpName.setText(name_of_grp);
         }
-        public void setName_of_Event(String name_of_event){
-            TextView EventName = (TextView)mView.findViewById(R.id.EventName);
+        void setName_of_Event(String name_of_event){
+            TextView EventName = mView.findViewById(R.id.EventName);
             EventName.setText(name_of_event);
         }
-        public void setDescription(String description){
-            TextView Description = (TextView)mView.findViewById(R.id.Description);
+        void setDescription(String description){
+            TextView Description = mView.findViewById(R.id.Description);
             Description.setText(description);
         }
-        public void setPrerequisite(String prerequisite){
-            TextView Prerequisite = (TextView)mView.findViewById(R.id.CardPrerequisite);
+        void setPrerequisite(String prerequisite){
+            TextView Prerequisite = mView.findViewById(R.id.CardPrerequisite);
             Prerequisite.setText(prerequisite);
         }
         public void setDate(String date){
-            TextView Date = (TextView)mView.findViewById(R.id.CardDate);
+            TextView Date = mView.findViewById(R.id.CardDate);
             Date.setText(date);
         }
         public void setTime(String time){
-            TextView Time = (TextView)mView.findViewById(R.id.CardTime);
+            TextView Time = mView.findViewById(R.id.CardTime);
             Time.setText(time);
         }
         public void setVenue(String venue){
-            TextView Venue = (TextView)mView.findViewById(R.id.Venue);
+            TextView Venue = mView.findViewById(R.id.Venue);
             Venue.setText(venue);
         }
 
@@ -150,7 +154,7 @@ public class Home extends AppCompatActivity {
                 this.itemClickListener.onClick(view,getAdapterPosition());
             }
         }
-        public void setItemClickListener(ItemClickListener ic){
+        void setItemClickListener(ItemClickListener ic){
             this.itemClickListener = ic;
         }
 
@@ -176,18 +180,22 @@ public class Home extends AppCompatActivity {
         else if(id == R.id.AccountDetails){
             if(userType.equals("student")){
                 startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
+                finish();
             }
             else if(userType.equals("group")){
                 startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+                finish();
             }
         }
 
         else if(id == R.id.MyEvents){
             if(userType.equals("group")) {
                 startActivity(new Intent(getApplicationContext(), MyEvents.class));
+                finish();
             }
             else if(userType.equals("student")) {
                 startActivity(new Intent(getApplicationContext(),MyEventsStudent.class));
+                finish();
             }
         }
         else if(id == R.id.Logout){

@@ -46,54 +46,54 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                 String cpassword = CPassword.getText().toString().trim();
                 final String username = Username.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    Email.setError("Email is Required");
-                }
                 if(TextUtils.isEmpty(username)){
                     Username.setError("Username is Required");
                 }
 
-                if(TextUtils.isEmpty(groupname)){
+                else if(TextUtils.isEmpty(groupname)){
                     GroupName.setError("Group Name is required");
                 }
 
-                if(TextUtils.isEmpty(password)){
+                else if(TextUtils.isEmpty(email)){
+                    Email.setError("Email is Required");
+                }
+
+                else if(TextUtils.isEmpty(password)){
                     Password.setError("Password is required");
                 }
 
-                if(password.length()<6){
+                else if(password.length()<6){
                     Password.setError("Password must be greater than or equal to 6 Characters");
-                    return;
                 }
-                if(!cpassword.equals(password)){
+                else if(!cpassword.equals(password)){
                     CPassword.setError("Password and Confirm Password should be equal");
                 }
 
+                else {
+                    fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
 
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-
-                            UserDetails userDetails = new UserDetails(username,groupname,email,"group");
-                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                      Toast.makeText(Sign_up_as_group_leader.this,"Registered Successfully",Toast.LENGTH_LONG).show();
+                                UserDetails userDetails = new UserDetails(username, groupname, email, "group");
+                                FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(Sign_up_as_group_leader.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                            Toast.makeText(Sign_up_as_group_leader.this,"User Created",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),Login.class));
-                            finish();
+                                Toast.makeText(Sign_up_as_group_leader.this, "User Created", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Login.class));
+                                finish();
+                            } else {
+                                Toast.makeText(Sign_up_as_group_leader.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(Sign_up_as_group_leader.this,"Error !"+ task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
 
