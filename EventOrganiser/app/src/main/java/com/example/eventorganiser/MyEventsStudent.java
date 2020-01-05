@@ -47,6 +47,7 @@ public class MyEventsStudent extends AppCompatActivity {
                 for (DataSnapshot keyNode : dataSnapshot.child("Feedback").getChildren()){
                     keys.add(keyNode.getValue(String.class));
                 }
+                onStart();
             }
 
             @Override

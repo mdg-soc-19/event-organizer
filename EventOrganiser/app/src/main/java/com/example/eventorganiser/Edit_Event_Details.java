@@ -1,10 +1,12 @@
 package com.example.eventorganiser;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,8 +15,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 public class Edit_Event_Details extends AppCompatActivity {
 
@@ -22,6 +30,12 @@ public class Edit_Event_Details extends AppCompatActivity {
     private String EventName,Description,Prerequisite,Date,Time,Venue,key;
     private Button Save_changes,delete,back,SeeFeedback;
     DatabaseReference mDatabase;
+    DatePickerDialog datePickerDialog;
+    int year;
+    int month;
+    int dayOfMonth;
+    Calendar calendar;
+    String nameOfGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +68,48 @@ public class Edit_Event_Details extends AppCompatActivity {
         venue.setText(Venue);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Events").child(key);
+        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nameOfGroup = String.valueOf(dataSnapshot.child("groupName").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH);
+                dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                datePickerDialog = new DatePickerDialog(Edit_Event_Details.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                date.setText(day + "/" + (month + 1) + "/" + year);
+                            }
+                        }, year, month, dayOfMonth);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePickerDialog.show();
+            }
+        });
 
         Save_changes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Event event = new Event();
-                event.setName_of_event(eventName.toString().trim());
-                event.setSpecifications(description.toString().trim());
-                event.setPrerequisite(prerequisite.toString().trim());
-                event.setDate(date.toString().trim());
-                event.setTime(time.toString().trim());
-                event.setVenue(venue.toString().trim());
+                event.setName_of_grp(nameOfGroup);
+                event.setName_of_event(eventName.getText().toString().trim());
+                event.setSpecifications(description.getText().toString().trim());
+                event.setPrerequisite(prerequisite.getText().toString().trim());
+                event.setDate(date.getText().toString().trim());
+                event.setTime(time.getText().toString().trim());
+                event.setVenue(venue.getText().toString().trim());
 
                 if(TextUtils.isEmpty(eventName.toString())){
                     eventName.setError("This field is required");

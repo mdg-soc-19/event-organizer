@@ -49,6 +49,7 @@ public class MyEvents extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 grpName = String.valueOf(dataSnapshot.child("groupName").getValue());
                 userType = String.valueOf(dataSnapshot.child("userType").getValue());
+                onStart();
             }
 
             @Override

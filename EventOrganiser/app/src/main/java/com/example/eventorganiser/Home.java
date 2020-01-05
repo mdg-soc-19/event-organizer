@@ -60,6 +60,7 @@ public class Home extends AppCompatActivity {
         });
 
        date = getIntent().getStringExtra("date");
+       //Log.d("str","date is"+date);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class Home extends AppCompatActivity {
         super.onStart();
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
                 (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase){
-            protected void populateViewHolder(EventViewHolder viewHolder,Event model,int position){
+            protected void populateViewHolder(EventViewHolder viewHolder, final Event model, int position){
                 viewHolder.setName_of_Grp(model.getName_of_grp());
                 viewHolder.setName_of_Event(model.getName_of_event());
                 viewHolder.setDescription("Specifications: "+model.getSpecifications());
@@ -79,7 +80,9 @@ public class Home extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position) {
-                        startActivity(new Intent(getApplicationContext(),FeedbackStudent.class));
+                        Intent in = new Intent(getApplicationContext(),FeedbackStudent.class);
+                        in.putExtra("key",model.getKey());
+                        startActivity(in);
                     }
                 });
             }
