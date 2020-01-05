@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,74 +37,76 @@ public class MainActivity extends AppCompatActivity {
         SignUp = findViewById(R.id.Signup1);
         fAuth = FirebaseAuth.getInstance();
 
-        /*if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),Login.class));
-            finish();
-        }*/
-
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name =  Name.getText().toString().trim();
-                String email = Email.getText().toString().trim();
-                String mobile = Mobile.getText().toString().trim();
-                String enrollno = EnrollNo.getText().toString().trim();
+                final String name =  Name.getText().toString().trim();
+                final String email = Email.getText().toString().trim();
+                final String mobile = Mobile.getText().toString().trim();
+                final String enrollno = EnrollNo.getText().toString().trim();
                 String password = Password.getText().toString().trim();
                 String cpassword = CPassword.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    Email.setError("Email is Required");
-                    return;
-                }
-
                 if(TextUtils.isEmpty(name)){
                     Name.setError("Name is required");
-                    return;
                 }
 
-                if(TextUtils.isEmpty(mobile)){
-                    Mobile.setError("Mobile number is required");
-                    return;
+                else if(TextUtils.isEmpty(email)){
+                    Email.setError("Email is Required");
                 }
 
-                if(mobile.length() != 10){
-                    Mobile.setError("Invalid mobile number");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(enrollno)){
+                else if(TextUtils.isEmpty(enrollno)){
                     EnrollNo.setError("Enrollment Number is required");
-                    return;
                 }
 
-                if(TextUtils.isEmpty(password)){
+                else if(TextUtils.isEmpty(mobile)){
+                    Mobile.setError("Mobile number is required");
+                }
+
+                else if(mobile.length() != 10){
+                    Mobile.setError("Invalid mobile number");
+                }
+
+                else if(TextUtils.isEmpty(password)){
                     Password.setError("Password is required");
-                    return;
                 }
 
-                if(password.length()<6){
+                else if(password.length()<6){
                     Password.setError("Password must be greater than or equal to 6 Characters");
                     return;
                 }
-                if(!cpassword.equals(password)){
+                else if(!cpassword.equals(password)){
                     CPassword.setError("Password and Confirm Password should be equal");
                 }
 
                 //register the user in Firebase.
 
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(MainActivity.this,"User Created",Toast.LENGTH_SHORT).show();
-                            finish();
-                            startActivity(new Intent(getApplicationContext(),Login.class));
+                else {
+                    fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            UserDetails userDetails = new UserDetails(name, email, enrollno, mobile, "student");
+
+
+                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Registered Successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                            if (task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, "User Created", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Login.class));
+                                finish();
+                            } else {
+                                Toast.makeText(MainActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                        else{
-                            Toast.makeText(MainActivity.this,"Error !"+ task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
 

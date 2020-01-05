@@ -15,18 +15,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Name"
+        android:textSize="16sp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="6dp"
-        android:text="Name"
-        android:textSize="16sp">
+        android:layout_marginRight="6dp">
 
     </TextView>
-
     <TextView
-        android:id="@+id/accountDetails_Username"
+        android:id="@+id/accountDetails_Student_Username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -35,8 +33,8 @@
         android:layout_marginEnd="4dp"
         android:layout_marginRight="6dp"
         android:text="Username"
-        android:textColor="#000000"
-        android:textSize="24sp">
+        android:textSize="24sp"
+        android:textColor="#000000">
 
     </TextView>
 
@@ -47,21 +45,20 @@
         android:layout_marginTop="4dp"
         android:background="?android:attr/listDivider" />
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Enrollment Number"
+        android:textSize="16sp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="6dp"
-        android:text="Group Name"
-        android:textSize="16sp">
+        android:layout_marginRight="6dp">
 
     </TextView>
-
     <TextView
-        android:id="@+id/accountDetails_GroupName"
+        android:id="@+id/accountDetails_Student_EnrollNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -69,14 +66,14 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="6dp"
-        android:text="GroupName"
-        android:textColor="#000000"
-        android:textSize="24sp">
+        android:text="EnrollmentNumber"
+        android:textSize="24sp"
+        android:textColor="#000000">
 
     </TextView>
 
     <View
-        android:id="@+id/divider3"
+        android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="4dp"
@@ -86,18 +83,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Email Address"
+        android:textSize="16sp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="6dp"
-        android:text="Email Address"
-        android:textSize="16sp">
+        android:layout_marginRight="6dp">
 
     </TextView>
-
     <TextView
-        android:id="@+id/accountDetails_Email"
+        android:id="@+id/accountDetails_Student_Email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -106,8 +101,39 @@
         android:layout_marginEnd="4dp"
         android:layout_marginRight="6dp"
         android:text="Email Address"
-        android:textColor="#000000"
-        android:textSize="24sp">
+        android:textSize="24sp"
+        android:textColor="#000000"/>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mobile Number"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="6dp">
+
+    </TextView>
+    <TextView
+        android:id="@+id/accountDetails_Student_MobileNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="6dp"
+        android:text="Mobile Number"
+        android:textSize="24sp"
+        android:textColor="#000000">
 
     </TextView>
 
@@ -118,8 +144,9 @@
         android:layout_marginTop="4dp"
         android:background="?android:attr/listDivider" />
 
+
     <Button
-        android:id="@+id/AccountDetails_Edit"
+        android:id="@+id/AccountDetails_Student_Edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -130,9 +157,8 @@
         android:text="Edit">
 
     </Button>
-
     <Button
-        android:id="@+id/AccountDetails_PassChange"
+        android:id="@+id/AccountDetails_Student_PassChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
