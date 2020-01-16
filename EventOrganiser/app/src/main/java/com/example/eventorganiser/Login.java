@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,9 +21,10 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Login extends AppCompatActivity {
 
     EditText Email , Password;
-    Button Login,fPassword,sSignUp,gSignUp;
+    TextView fPassword,sSignUp,gSignUp;
+    Button Login;
     FirebaseAuth fAuth;
-
+    private ProgressBar progressBar;
 
     @Override
     protected void onStart() {
@@ -41,9 +44,10 @@ public class Login extends AppCompatActivity {
         Email = findViewById(R.id.Email3);
         Password = findViewById(R.id.Password3);
         Login = findViewById(R.id.Login);
-        fPassword = findViewById(R.id.Fpassword);
-        sSignUp = findViewById(R.id.suas);
-        gSignUp = findViewById(R.id.suagl);
+        fPassword = findViewById(R.id.F_password);
+        sSignUp = findViewById(R.id.SignUp_student);
+        gSignUp = findViewById(R.id.SignUp_GL);
+        progressBar = findViewById(R.id.progressBar_Login);
         fAuth = FirebaseAuth.getInstance();
 
         Login.setOnClickListener(new View.OnClickListener() {
@@ -63,16 +67,18 @@ public class Login extends AppCompatActivity {
                 }
 
                 //authenticate the user
-
+                progressBar.setVisibility(View.VISIBLE);
                 fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(Login.this,"Logged in successfully",Toast.LENGTH_SHORT).show();
-                            finish();
                             startActivity(new Intent(getApplicationContext(),Home.class));
+                            finish();
                         }
                         else{
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(Login.this,"Error !"+ task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }
