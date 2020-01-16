@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+=======
+import android.widget.TextView;
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +32,10 @@ public class Feedbacks extends AppCompatActivity {
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     DatabaseReference mDatabase, pDatabase;
     String key, userType;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +48,10 @@ public class Feedbacks extends AppCompatActivity {
         mDatabase = db.getReference("Events").child(key).child("Feedback");
         mDatabase.keepSynced(true);
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_feedbacks);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -80,7 +90,10 @@ public class Feedbacks extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+<<<<<<< HEAD
         progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         FirebaseRecyclerAdapter<Feedback, FeedbackViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Feedback, FeedbackViewHolder>
                 (Feedback.class, R.layout.feedbackcards, FeedbackViewHolder.class, mDatabase) {
@@ -89,6 +102,7 @@ public class Feedbacks extends AppCompatActivity {
 
                 feedbackViewHolder.setUsername(feedback.getUsername());
                 feedbackViewHolder.setFeedback(feedback.getFeedback());
+<<<<<<< HEAD
                 progressBar.setVisibility(View.GONE);
             }
         };
@@ -107,6 +121,11 @@ public class Feedbacks extends AppCompatActivity {
 
             }
         });
+=======
+            }
+        };
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

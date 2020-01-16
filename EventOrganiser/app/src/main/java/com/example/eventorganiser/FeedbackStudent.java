@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +28,11 @@ public class FeedbackStudent extends AppCompatActivity {
     DatabaseReference mDatabase, pDatabase;
     String eventKey, username;
     String groupName,eventName,eventSpecs,eventPrerequisite,eventDate,eventTime,eventVenue;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,10 @@ public class FeedbackStudent extends AppCompatActivity {
         eventPrerequisite = getIntent().getStringExtra("eventPrerequisite");
         eventSpecs = getIntent().getStringExtra("eventSpecs");
         eventVenue = getIntent().getStringExtra("eventVenue");
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_feedbackStudent);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("MyEvents");
         pDatabase = FirebaseDatabase.getInstance().getReference("Events").child(eventKey).child("Feedback");
@@ -64,7 +74,10 @@ public class FeedbackStudent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String key = pDatabase.push().getKey();
+<<<<<<< HEAD
                 progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                 FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -72,7 +85,10 @@ public class FeedbackStudent extends AppCompatActivity {
                         pDatabase.child(key).child("username").setValue(username);
                         pDatabase.child(key).child("feedback").setValue(feedback.getText().toString().trim());
                         Toast.makeText(getApplicationContext(),"Feedback Submitted successfully",Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
                         progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     }
 
                     @Override

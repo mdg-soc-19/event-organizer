@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +27,10 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
     private TextView userName, GroupName, Email;
     Button update , back;
     private DatabaseReference mDatabase;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,10 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
         Email =  findViewById(R.id.Edit_Email);
         update =  findViewById(R.id.Update);
         back = findViewById(R.id.Edit_Back);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_updateLeaderDetails);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         userName.setText(username);
         GroupName.setText(groupName);
@@ -66,12 +75,18 @@ public class UpdateGroupLeaderDetails extends AppCompatActivity {
                     Email.setError("Email is Required");
                 }
                 else {
+<<<<<<< HEAD
                     progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     UserDetails userDetails = new UserDetails(Username, Group_Name, emailId, "group");
                     mDatabase.setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+<<<<<<< HEAD
                             progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                             Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), AccountDetails.class));
                             finish();

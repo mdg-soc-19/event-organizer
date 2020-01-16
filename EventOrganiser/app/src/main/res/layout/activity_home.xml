@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView     xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
+=======
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fillViewport="true">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:fillViewport="true">
 
+<<<<<<< HEAD
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,7 +52,32 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+=======
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/HomeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="-16dp">
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 
+<<<<<<< HEAD
     </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/calendar_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        tools:layout_editor_absoluteY="639dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 </androidx.core.widget.NestedScrollView>

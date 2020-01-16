@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView     xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:fillViewport="true">
 <LinearLayout
+=======
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountDetails"
@@ -170,6 +179,7 @@
 
     </Button>
 
+<<<<<<< HEAD
     <ProgressBar
         android:id="@+id/progressBar_ad2"
         style="?android:attr/progressBarStyle"
@@ -177,5 +187,7 @@
         android:layout_height="wrap_content"
         android:visibility="invisible" />
 
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>

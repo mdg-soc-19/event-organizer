@@ -45,11 +45,18 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String email = Email.getText().toString().trim();
+<<<<<<< HEAD
                 final String password = Password.getText().toString().trim();
                 final String groupname = GroupName.getText().toString().trim();
                 String cpassword = CPassword.getText().toString().trim();
                 final String username = Username.getText().toString().trim();
                 String groupCode = GroupCode.getText().toString().trim();
+=======
+                String password = Password.getText().toString().trim();
+                final String groupname = GroupName.getText().toString().trim();
+                String cpassword = CPassword.getText().toString().trim();
+                final String username = Username.getText().toString().trim();
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
                 if(TextUtils.isEmpty(username)){
                     Username.setError("Username is Required");
@@ -59,10 +66,13 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                     GroupName.setError("Group Name is required");
                 }
 
+<<<<<<< HEAD
                 else if(!groupCode.equals("IITR_Groups")){
                    GroupCode.setError("Incorrect Group Code");
                 }
 
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                 else if(TextUtils.isEmpty(email)){
                     Email.setError("Email is Required");
                 }
@@ -79,16 +89,24 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                 }
 
                 else {
+<<<<<<< HEAD
                     progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                                 UserDetails userDetails = new UserDetails(username, groupname, email, "group");
                                 FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
+<<<<<<< HEAD
                                             progressBar.setVisibility(View.GONE);
                                             Toast.makeText(Sign_up_as_group_leader.this, "Registered Successfully", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(getApplicationContext(), Login.class));
@@ -98,6 +116,17 @@ public class Sign_up_as_group_leader extends AppCompatActivity {
                                 });
                             } else {
                                 progressBar.setVisibility(View.GONE);
+=======
+                                            Toast.makeText(Sign_up_as_group_leader.this, "Registered Successfully", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
+                                Toast.makeText(Sign_up_as_group_leader.this, "User Created", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), Login.class));
+                                finish();
+                            } else {
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                                 Toast.makeText(Sign_up_as_group_leader.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }

@@ -6,9 +6,13 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+=======
+import android.widget.TextView;
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +37,10 @@ public class MyEvents extends AppCompatActivity {
     DatabaseReference mDatabase,pDatabase;
     Query rDatabase;
     private String grpName,userType;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,10 @@ public class MyEvents extends AppCompatActivity {
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         rDatabase=mDatabase.orderByChild("name_of_grp");
         rDatabase.keepSynced(true);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_myEvents);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,7 +87,10 @@ public class MyEvents extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+<<<<<<< HEAD
         progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event, EventViewHolder>
                 (Event.class,R.layout.cards_my_events_gl, EventViewHolder.class,rDatabase.equalTo(grpName)){
@@ -89,7 +102,10 @@ public class MyEvents extends AppCompatActivity {
                 viewHolder.setDate("Date: "+model.getDate());
                 viewHolder.setTime("Time: "+model.getTime());
                 viewHolder.setVenue(model.getVenue());
+<<<<<<< HEAD
                 progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
@@ -117,6 +133,7 @@ public class MyEvents extends AppCompatActivity {
             }
         };
 
+<<<<<<< HEAD
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -139,6 +156,8 @@ public class MyEvents extends AppCompatActivity {
         }, 100);
 
 
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
         mRecyclerView.setAdapter(firebaseRecyclerAdapter);
     }
     public static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -163,6 +182,7 @@ public class MyEvents extends AppCompatActivity {
 
 
 
+<<<<<<< HEAD
         public void setName_of_Grp(String name_of_grp){
             TextView GrpName = mView.findViewById(R.id.gl_GrpName);
             GrpName.setText(name_of_grp);
@@ -174,6 +194,19 @@ public class MyEvents extends AppCompatActivity {
             Description.setText(description);
         }
         public void setPrerequisite(String prerequisite){
+=======
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.gl_GrpName);
+            GrpName.setText(name_of_grp);
+        }
+        void setName_of_Event(String name_of_event){
+            EventName.setText(name_of_event);
+        }
+        void setDescription(String description){
+            Description.setText(description);
+        }
+        void setPrerequisite(String prerequisite){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             Prerequisite.setText(prerequisite);
         }
         public void setDate(String date){
@@ -192,7 +225,11 @@ public class MyEvents extends AppCompatActivity {
             this.itemClickListener.onClick(view,getAdapterPosition());
         }
 
+<<<<<<< HEAD
         public void setItemClickListener(ItemClickListener ic){
+=======
+        void setItemClickListener(ItemClickListener ic){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             this.itemClickListener = ic;
         }
     }

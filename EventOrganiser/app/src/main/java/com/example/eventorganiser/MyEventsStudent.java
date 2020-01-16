@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+=======
+import android.widget.TextView;
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +32,10 @@ public class MyEventsStudent extends AppCompatActivity {
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference pDatabase;
     String userType;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,10 @@ public class MyEventsStudent extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         pDatabase.keepSynced(true);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_myEventStudent);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,6 +72,7 @@ public class MyEventsStudent extends AppCompatActivity {
             mView=itemView;
             mView.setClickable(true);
         }
+<<<<<<< HEAD
         public void setName_of_Grp(String name_of_grp){
             TextView GrpName = mView.findViewById(R.id.GrpName);
             GrpName.setText(name_of_grp);
@@ -75,6 +86,21 @@ public class MyEventsStudent extends AppCompatActivity {
             Description.setText(description);
         }
         public void setPrerequisite(String prerequisite){
+=======
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.GrpName);
+            GrpName.setText(name_of_grp);
+        }
+        void setName_of_Event(String name_of_event){
+            TextView EventName = mView.findViewById(R.id.EventName);
+            EventName.setText(name_of_event);
+        }
+        void setDescription(String description){
+            TextView Description = mView.findViewById(R.id.Description);
+            Description.setText(description);
+        }
+        void setPrerequisite(String prerequisite){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             TextView Prerequisite = mView.findViewById(R.id.CardPrerequisite);
             Prerequisite.setText(prerequisite);
         }
@@ -95,7 +121,10 @@ public class MyEventsStudent extends AppCompatActivity {
 
     protected void onStart(){
         super.onStart();
+<<<<<<< HEAD
         progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter;
             firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Event,EventViewHolder>
                     (Event.class, R.layout.material_card_view, EventViewHolder.class,pDatabase.child("MyEvents")) {
@@ -108,6 +137,7 @@ public class MyEventsStudent extends AppCompatActivity {
                     eventViewHolder.setPrerequisite(event.getPrerequisite());
                     eventViewHolder.setTime(event.getTime());
                     eventViewHolder.setVenue(event.getVenue());
+<<<<<<< HEAD
                     progressBar.setVisibility(View.GONE);
                 }
             };
@@ -125,6 +155,10 @@ public class MyEventsStudent extends AppCompatActivity {
 
                 }
             });
+=======
+                }
+            };
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             recyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 

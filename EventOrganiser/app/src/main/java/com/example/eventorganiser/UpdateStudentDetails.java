@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +27,10 @@ public class UpdateStudentDetails extends AppCompatActivity {
     TextView userName, EnrollNo, Email, MobileNo;
     Button update , back;
     private DatabaseReference mDatabase;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,10 @@ public class UpdateStudentDetails extends AppCompatActivity {
         update =  findViewById(R.id.Edit2_Update);
         back = findViewById(R.id.Edit2_Back);
         MobileNo =findViewById(R.id.Edit2_MobileNo);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_upadteStudentDetails);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         userName.setText(username);
         EnrollNo.setText(enrollNo);
@@ -78,12 +87,18 @@ public class UpdateStudentDetails extends AppCompatActivity {
                     MobileNo.setError("Invalid mobile number");
                 }
                 else {
+<<<<<<< HEAD
                     progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     UserDetails userDetails = new UserDetails(Username, emailId, Enroll_no, Mobile_no, "student");
                     mDatabase.setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+<<<<<<< HEAD
                             progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                             Toast.makeText(getApplicationContext(), "Updated Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), AccountDetails_Student.class));
                             finish();

@@ -6,7 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,7 +29,10 @@ public class AccountDetails_Student extends AppCompatActivity {
     Button edit , changePassword;
     String userType;
     String Username,EnrollNo,Email,MobileNo;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,10 @@ public class AccountDetails_Student extends AppCompatActivity {
         edit = findViewById(R.id.AccountDetails_Student_Edit);
         changePassword = findViewById(R.id.AccountDetails_Student_PassChange);
         mobileNo = findViewById(R.id.accountDetails_Student_MobileNo);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_ad2);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 
 
@@ -86,7 +95,11 @@ public class AccountDetails_Student extends AppCompatActivity {
 
     protected void onStart(){
         super.onStart();
+<<<<<<< HEAD
         progressBar.setVisibility(View.VISIBLE);
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -94,7 +107,11 @@ public class AccountDetails_Student extends AppCompatActivity {
                 enrollNo.setText(String.valueOf(dataSnapshot.child("enrollNo").getValue()));
                 email.setText(String.valueOf(dataSnapshot.child("emailId").getValue()));
                 mobileNo.setText(String.valueOf(dataSnapshot.child("mobileNo").getValue()));
+<<<<<<< HEAD
                 progressBar.setVisibility(View.GONE);
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             }
 
             @Override

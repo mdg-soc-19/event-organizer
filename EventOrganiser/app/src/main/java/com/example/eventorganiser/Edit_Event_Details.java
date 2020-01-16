@@ -8,7 +8,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -39,7 +42,10 @@ public class Edit_Event_Details extends AppCompatActivity {
     int dayOfMonth;
     Calendar calendar;
     String nameOfGroup;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,10 @@ public class Edit_Event_Details extends AppCompatActivity {
         delete = findViewById(R.id.EditDelete_btn);
         back = findViewById(R.id.EditBack_btn);
         SeeFeedback = findViewById(R.id.see_feedbacks_btn);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_editEventDetails);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         EventName = getIntent().getStringExtra("EventName");
         Description = getIntent().getStringExtra("Description");
@@ -158,11 +167,17 @@ public class Edit_Event_Details extends AppCompatActivity {
                     prerequisite.setError("This field is required.If there are no prerequisites then enter none.");
                 }
                 else {
+<<<<<<< HEAD
                     progressBar.setVisibility(View.VISIBLE);
                     mDatabase.setValue(event).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             progressBar.setVisibility(View.GONE);
+=======
+                    mDatabase.setValue(event).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                             Toast.makeText(getApplicationContext(), "Event Details updated successfully.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MyEvents.class));
                             finish();
@@ -175,11 +190,17 @@ public class Edit_Event_Details extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+<<<<<<< HEAD
                 progressBar.setVisibility(View.VISIBLE);
                 mDatabase.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         progressBar.setVisibility(View.GONE);
+=======
+                mDatabase.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                         Toast.makeText(getApplicationContext(),"Event deleted successfully.",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(),MyEvents.class));
                         finish();

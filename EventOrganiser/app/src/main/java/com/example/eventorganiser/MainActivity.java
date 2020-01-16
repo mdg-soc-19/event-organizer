@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         CPassword = findViewById(R.id.Cpassword1);
         SignUp = findViewById(R.id.Signup1);
         fAuth = FirebaseAuth.getInstance();
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_signup_as_student);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
                 final String email = Email.getText().toString().trim();
                 final String mobile = Mobile.getText().toString().trim();
                 final String enrollno = EnrollNo.getText().toString().trim();
+<<<<<<< HEAD
                 final String password = Password.getText().toString().trim();
+=======
+                String password = Password.getText().toString().trim();
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                 String cpassword = CPassword.getText().toString().trim();
 
                 if(TextUtils.isEmpty(name)){
@@ -84,13 +91,20 @@ public class MainActivity extends AppCompatActivity {
                 //register the user in Firebase.
 
                 else {
+<<<<<<< HEAD
                     progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
                             UserDetails userDetails = new UserDetails(name, email, enrollno, mobile, "student");
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(userDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -100,12 +114,18 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             if (task.isSuccessful()) {
+<<<<<<< HEAD
                                 progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                                 Toast.makeText(MainActivity.this, "User Created", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), Login.class));
                                 finish();
                             } else {
+<<<<<<< HEAD
                                 progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                                 Toast.makeText(MainActivity.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }

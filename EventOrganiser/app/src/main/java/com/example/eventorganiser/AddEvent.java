@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+<<<<<<< HEAD
 import android.widget.ProgressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -38,7 +41,11 @@ public class AddEvent extends AppCompatActivity {
     int month;
     int dayOfMonth;
     Calendar calendar;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,10 @@ public class AddEvent extends AppCompatActivity {
         submitBtn = findViewById(R.id.Submit_btn);
         back_btn = findViewById(R.id.Back_btn);
         time = findViewById(R.id.Time);
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_addEvent);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -131,12 +141,21 @@ public class AddEvent extends AppCompatActivity {
 
                 else if(TextUtils.isEmpty(DateAndTime)){
                     date.setError("This field is required");
+<<<<<<< HEAD
                 }
 
                 else if (TextUtils.isEmpty(Time)){
                     time.setError("This field is required");
                 }
 
+=======
+                }
+
+                else if (TextUtils.isEmpty(Time)){
+                    time.setError("This field is required");
+                }
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                 else if(TextUtils.isEmpty(Venue)){
                     venueOfEvent.setError("This field is required");
                 }
@@ -150,7 +169,10 @@ public class AddEvent extends AppCompatActivity {
                 }
 
                 else {
+<<<<<<< HEAD
                     progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     new FirebaseDatabaseHelper().addEvent(event, new FirebaseDatabaseHelper.DataStatus() {
                         @Override
                         public void DataIsLoaded(List<Event> events, List<String> keys) {
@@ -159,16 +181,23 @@ public class AddEvent extends AppCompatActivity {
 
                         @Override
                         public void DataIsInserted() {
+<<<<<<< HEAD
                             progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                             Toast.makeText(AddEvent.this, "The event record has been inserted successfully.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MyEvents.class));
                             finish();
                         }
+<<<<<<< HEAD
                         @Override
                         public void DataIsDeleted(){
 
                         }
 
+=======
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
                     });
                 }
             }

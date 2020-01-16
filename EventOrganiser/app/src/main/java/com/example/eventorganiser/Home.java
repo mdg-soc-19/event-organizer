@@ -33,7 +33,10 @@ public class Home extends AppCompatActivity {
     DatabaseReference pDatabase;
     FloatingActionButton calendarBtn;
     String date , userType;
+<<<<<<< HEAD
     private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,10 @@ public class Home extends AppCompatActivity {
         mDatabase.keepSynced(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         pDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+<<<<<<< HEAD
         progressBar = findViewById(R.id.progressBar_home);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
         calendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +60,7 @@ public class Home extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
 
         pDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -64,6 +71,18 @@ public class Home extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+=======
+
+        pDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userType = String.valueOf(dataSnapshot.child("userType").getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             }
         });
 
@@ -78,7 +97,10 @@ public class Home extends AppCompatActivity {
             SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy");
             date = df.format(c);
         }
+<<<<<<< HEAD
         progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
         FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event,EventViewHolder>
                 (Event.class,R.layout.material_card_view,EventViewHolder.class,mDatabase.orderByChild("date").equalTo(date)){
             protected void populateViewHolder(EventViewHolder viewHolder, final Event model, int position){
@@ -89,7 +111,10 @@ public class Home extends AppCompatActivity {
                 viewHolder.setDate("Date: "+model.getDate());
                 viewHolder.setTime("Time: "+model.getTime());
                 viewHolder.setVenue(model.getVenue());
+<<<<<<< HEAD
                 progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 
                     viewHolder.setItemClickListener(new ItemClickListener() {
@@ -145,6 +170,7 @@ public class Home extends AppCompatActivity {
             mView.setClickable(true);
             itemView.setOnClickListener(this);
         }
+<<<<<<< HEAD
         public void setName_of_Grp(String name_of_grp){
             TextView GrpName = mView.findViewById(R.id.GrpName);
             GrpName.setText(name_of_grp);
@@ -158,6 +184,21 @@ public class Home extends AppCompatActivity {
             Description.setText(description);
         }
         public void setPrerequisite(String prerequisite){
+=======
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.GrpName);
+            GrpName.setText(name_of_grp);
+        }
+        void setName_of_Event(String name_of_event){
+            TextView EventName = mView.findViewById(R.id.EventName);
+            EventName.setText(name_of_event);
+        }
+        void setDescription(String description){
+            TextView Description = mView.findViewById(R.id.Description);
+            Description.setText(description);
+        }
+        void setPrerequisite(String prerequisite){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             TextView Prerequisite = mView.findViewById(R.id.CardPrerequisite);
             Prerequisite.setText(prerequisite);
         }
@@ -179,7 +220,11 @@ public class Home extends AppCompatActivity {
                 this.itemClickListener.onClick(view,getAdapterPosition());
             }
         }
+<<<<<<< HEAD
         public void setItemClickListener(ItemClickListener ic){
+=======
+        void setItemClickListener(ItemClickListener ic){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             this.itemClickListener = ic;
         }
 
