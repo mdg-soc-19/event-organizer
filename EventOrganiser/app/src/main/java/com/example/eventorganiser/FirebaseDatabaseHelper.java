@@ -14,27 +14,22 @@ import java.util.List;
 
 public class FirebaseDatabaseHelper {
 
-    private FirebaseDatabase mDatabase;
+    FirebaseDatabase mDatabase;
     private DatabaseReference mReferenceEvents;
-    private DatabaseReference mReferenceGroupLeader;
     private List<Event> events = new ArrayList<>();
-    private List<GroupLeaderDetail> groupLeaderDetails = new ArrayList<>();
 
     public interface DataStatus{
         void DataIsLoaded(List<Event> events,List<String> keys);
         void DataIsInserted();
+<<<<<<< HEAD
         void DataIsDeleted();
-    }
-    public interface DetailsStatus{
-        void DataIsLoaded(List<GroupLeaderDetail> groupLeaderDetails,List<String> keys);
-        void DataIsInserted();
-        void DataIsDeleted();
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
     }
 
-    public FirebaseDatabaseHelper() {
+    FirebaseDatabaseHelper() {
         mDatabase = FirebaseDatabase.getInstance();
         mReferenceEvents = mDatabase.getReference("Events");
-        mReferenceGroupLeader = mDatabase.getReference("GroupLeaderDetails");
     }
 
     public void readEvents(final DataStatus dataStatus){
@@ -58,8 +53,9 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void addEvent (Event event,final DataStatus dataStatus){
+    void addEvent (Event event,final DataStatus dataStatus){
         String key = mReferenceEvents.push().getKey();
+        event.setKey(key);
         mReferenceEvents.child(key).setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -68,34 +64,4 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void readGroupLeaderDetails(final DetailsStatus detailsStatus){
-        mReferenceGroupLeader.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                groupLeaderDetails.clear();
-                List<String> keys = new ArrayList<>();
-                for (DataSnapshot keyNode : dataSnapshot.getChildren()){
-                    keys.add(keyNode.getKey());
-                    GroupLeaderDetail groupLeaderDetail = keyNode.getValue(GroupLeaderDetail.class);
-                    groupLeaderDetails.add(groupLeaderDetail);
-                }
-                detailsStatus.DataIsLoaded(groupLeaderDetails,keys);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void addGroupLeaderDetails (GroupLeaderDetail groupLeaderDetail,final DetailsStatus detailsStatus){
-        String key = mReferenceGroupLeader.push().getKey();
-        mReferenceGroupLeader.child(key).setValue(groupLeaderDetail).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                detailsStatus.DataIsInserted();
-            }
-        });
-    }
 }

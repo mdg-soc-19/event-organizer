@@ -22,13 +22,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class AccountDetails extends AppCompatActivity {
+public class AccountDetails_Student extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private TextView username,groupName,email;
+    private TextView username,enrollNo,email,mobileNo;
     Button edit , changePassword;
     String userType;
-    String Username,GroupName,Email;
+    String Username,EnrollNo,Email,MobileNo;
 <<<<<<< HEAD
     private ProgressBar progressBar;
 =======
@@ -37,26 +37,27 @@ public class AccountDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_details);
+        setContentView(R.layout.activity_account_details__student);
         mDatabase = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mDatabase.keepSynced(true);
 
-        username = findViewById(R.id.accountDetails_Username);
-        groupName = findViewById(R.id.accountDetails_GroupName);
-        email = findViewById(R.id.accountDetails_Email);
-        edit = findViewById(R.id.AccountDetails_Edit);
-        changePassword = findViewById(R.id.AccountDetails_PassChange);
+        username = findViewById(R.id.accountDetails_Student_Username);
+        enrollNo = findViewById(R.id.accountDetails_Student_EnrollNo);
+        email = findViewById(R.id.accountDetails_Student_Email);
+        edit = findViewById(R.id.AccountDetails_Student_Edit);
+        changePassword = findViewById(R.id.AccountDetails_Student_PassChange);
+        mobileNo = findViewById(R.id.accountDetails_Student_MobileNo);
 <<<<<<< HEAD
-        progressBar = findViewById(R.id.progressBar_ad1);
+        progressBar = findViewById(R.id.progressBar_ad2);
 =======
-
 >>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+
 
 
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AccountDetails.this,Forgot_Password.class));
+                startActivity(new Intent(AccountDetails_Student.this,Forgot_Password.class));
             }
         });
 
@@ -68,15 +69,19 @@ public class AccountDetails extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Username = String.valueOf(dataSnapshot.child("username").getValue());
-                        GroupName = String.valueOf(dataSnapshot.child("groupName").getValue());
+                        EnrollNo = String.valueOf(dataSnapshot.child("enrollNo").getValue());
                         Email = String.valueOf(dataSnapshot.child("emailId").getValue());
+                        MobileNo = String.valueOf(dataSnapshot.child("mobileNo").getValue());
+                        userType = String.valueOf(dataSnapshot.child("userType").getValue());
 
-                        Intent intent = new Intent(AccountDetails.this,UpdateGroupLeaderDetails.class);
+                        Intent intent = new Intent(AccountDetails_Student.this,UpdateStudentDetails.class);
                         intent.putExtra("username",Username);
-                        intent.putExtra("groupName",GroupName);
+                        intent.putExtra("enrollNo",EnrollNo);
                         intent.putExtra("email",Email);
+                        intent.putExtra("mobileNo",MobileNo);
                         startActivity(intent);
                         finish();
+
                     }
 
                     @Override
@@ -99,12 +104,13 @@ public class AccountDetails extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 username.setText(String.valueOf(dataSnapshot.child("username").getValue()));
-                groupName.setText(String.valueOf(dataSnapshot.child("groupName").getValue()));
+                enrollNo.setText(String.valueOf(dataSnapshot.child("enrollNo").getValue()));
                 email.setText(String.valueOf(dataSnapshot.child("emailId").getValue()));
-                userType = String.valueOf(dataSnapshot.child("userType").getValue());
+                mobileNo.setText(String.valueOf(dataSnapshot.child("mobileNo").getValue()));
 <<<<<<< HEAD
                 progressBar.setVisibility(View.GONE);
 =======
+
 >>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
             }
 
@@ -153,7 +159,6 @@ public class AccountDetails extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),Login.class));
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

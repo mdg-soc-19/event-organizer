@@ -2,34 +2,236 @@ package com.example.eventorganiser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+<<<<<<< HEAD
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+=======
+import android.widget.TextView;
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class MyEvents extends AppCompatActivity {
 
-    Button addEvent;
+    FirebaseDatabase db= FirebaseDatabase.getInstance();
+    FloatingActionButton addEvent;
+    private RecyclerView mRecyclerView;
+    DatabaseReference mDatabase,pDatabase;
+    Query rDatabase;
+    private String grpName,userType;
+<<<<<<< HEAD
+    private ProgressBar progressBar;
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
-        addEvent = (Button) findViewById(R.id.AddEvent);
+        addEvent =  findViewById(R.id.AddEvent);
+        mRecyclerView = findViewById(R.id.MyEventsGLRecyclerView);
+        mDatabase = db.getReference().child("Events");
+        mDatabase.keepSynced(true);
+        pDatabase = db.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        rDatabase=mDatabase.orderByChild("name_of_grp");
+        rDatabase.keepSynced(true);
+<<<<<<< HEAD
+        progressBar = findViewById(R.id.progressBar_myEvents);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+
+        pDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                grpName = String.valueOf(dataSnapshot.child("groupName").getValue());
+                userType = String.valueOf(dataSnapshot.child("userType").getValue());
+                onStart();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 startActivity(new Intent(MyEvents.this, AddEvent.class));
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+<<<<<<< HEAD
+        progressBar.setVisibility(View.VISIBLE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        FirebaseRecyclerAdapter<Event,EventViewHolder> firebaseRecyclerAdapter=new FirebaseRecyclerAdapter<Event, EventViewHolder>
+                (Event.class,R.layout.cards_my_events_gl, EventViewHolder.class,rDatabase.equalTo(grpName)){
+            protected void populateViewHolder(EventViewHolder viewHolder, final Event model, int position) {
+                viewHolder.setName_of_Grp(model.getName_of_grp());
+                viewHolder.setName_of_Event(model.getName_of_event());
+                viewHolder.setDescription("Specifications: "+model.getSpecifications());
+                viewHolder.setPrerequisite("Prerequisite: "+model.getPrerequisite());
+                viewHolder.setDate("Date: "+model.getDate());
+                viewHolder.setTime("Time: "+model.getTime());
+                viewHolder.setVenue(model.getVenue());
+<<<<<<< HEAD
+                progressBar.setVisibility(View.GONE);
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+
+                viewHolder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        String NameofEvent = model.getName_of_event();
+                        String description = model.getSpecifications();
+                        String prerequisite = model.getPrerequisite();
+                        String date = model.getDate();
+                        String time = model.getTime();
+                        String venue = model.getVenue();
+                        String key = model.getKey();
+
+                        Intent in = new Intent(MyEvents.this,Edit_Event_Details.class);
+                        in.putExtra("EventName",NameofEvent);
+                        in.putExtra("Description",description);
+                        in.putExtra("Prerequisite",prerequisite);
+                        in.putExtra("Date",date);
+                        in.putExtra("Time",time);
+                        in.putExtra("Venue",venue);
+                        in.putExtra("key",key);
+                        startActivity(in);
+                        finish();
+                    }
+                });
+            }
+        };
+
+<<<<<<< HEAD
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDatabase.orderByChild("name_of_grp").equalTo(grpName).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(!dataSnapshot.exists()){
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(),"You haven't added any event yet",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        }, 100);
+
+
+=======
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    }
+    public static class EventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        View mView;
+        TextView EventName,Description,Prerequisite,Date,Time,Venue;
+        ItemClickListener itemClickListener;
+
+        public EventViewHolder(View itemView){
+            super(itemView);
+            mView=itemView;
+            mView.setClickable(true);
+            itemView.setOnClickListener(this);
+
+            EventName = mView.findViewById(R.id.gl_EventName);
+            Description = mView.findViewById(R.id.gl_Description);
+            Prerequisite = mView.findViewById(R.id.gl_CardPrerequisite);
+            Date = mView.findViewById(R.id.gl_CardDate);
+            Time = mView.findViewById(R.id.gl_CardTime);
+            Venue = mView.findViewById(R.id.gl_Venue);
+
+        }
+
+
+
+<<<<<<< HEAD
+        public void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.gl_GrpName);
+            GrpName.setText(name_of_grp);
+        }
+        public void setName_of_Event(String name_of_event){
+            EventName.setText(name_of_event);
+        }
+        public void setDescription(String description){
+            Description.setText(description);
+        }
+        public void setPrerequisite(String prerequisite){
+=======
+        void setName_of_Grp(String name_of_grp){
+            TextView GrpName = mView.findViewById(R.id.gl_GrpName);
+            GrpName.setText(name_of_grp);
+        }
+        void setName_of_Event(String name_of_event){
+            EventName.setText(name_of_event);
+        }
+        void setDescription(String description){
+            Description.setText(description);
+        }
+        void setPrerequisite(String prerequisite){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+            Prerequisite.setText(prerequisite);
+        }
+        public void setDate(String date){
+            Date.setText(date);
+        }
+        public void setTime(String time){
+            Time.setText(time);
+        }
+        public void setVenue(String venue){
+            Venue.setText(venue);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (itemClickListener != null)
+            this.itemClickListener.onClick(view,getAdapterPosition());
+        }
+
+<<<<<<< HEAD
+        public void setItemClickListener(ItemClickListener ic){
+=======
+        void setItemClickListener(ItemClickListener ic){
+>>>>>>> 1311432f2ef47a9b810f2ca55dc02daf67c7175c
+            this.itemClickListener = ic;
+        }
     }
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_at_home,menu);
@@ -40,26 +242,35 @@ public class MyEvents extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.Home){
-            finish();
             startActivity(new Intent(getApplicationContext(),Home.class));
+            finish();
         }
         else if(id == R.id.AccountDetails){
-            finish();
-            startActivity(new Intent(getApplicationContext(),AccountDetails.class));
+            if(userType.equals("group")) {
+                startActivity(new Intent(getApplicationContext(), AccountDetails.class));
+                finish();
+            }
+            else if(userType.equals("student")) {
+                startActivity(new Intent(getApplicationContext(),AccountDetails_Student.class));
+                finish();
+            }
         }
 
         else if(id == R.id.MyEvents){
-            finish();
-            startActivity(new Intent(getApplicationContext(),MyEvents.class));
-        }
+            if(userType.equals("group")) {
+                startActivity(new Intent(getApplicationContext(), MyEvents.class));
+                finish();
+            }
+            else if(userType.equals("student")) {
+                startActivity(new Intent(getApplicationContext(),MyEventsStudent.class));
+                finish();
+            }         }
         else if(id == R.id.Logout){
-            finish();
             FirebaseAuth.getInstance().signOut();
-        }
-        else if(id == R.id.Calender_icon){
+            startActivity(new Intent(getApplicationContext(),Login.class));
             finish();
-            startActivity(new Intent(getApplicationContext(),Calender_View.class));
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

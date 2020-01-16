@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Calender_View extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +19,14 @@ public class Calender_View extends AppCompatActivity {
         view.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int date) {
-                String Date =  date + "/" + month + "/" + year;
+                int month_ = month+1;
+                String Date =  date + "/" + month_ + "/" + year;
                 Bundle bDate = new Bundle();
                 bDate.putString("date",Date);
                 Intent intent = new Intent(Calender_View.this,Home.class);
                 intent.putExtras(bDate);
                 startActivity(intent);
+                finish();
             }
         });
 
